@@ -1,0 +1,314 @@
+LOCUS       IgG1_heavy_chain_french_vector        5738 bp    DNA     circular UNA 22-MAY-2026
+DEFINITION  .
+ACCESSION   urn.local...97-kqwio69
+VERSION     urn.local...97-kqwio69
+KEYWORDS    .
+SOURCE      
+  ORGANISM  .
+FEATURES             Location/Qualifiers
+     sig_peptide     1..57
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Signal peptide"
+     misc_feature    1..46
+                     /note="Geneious type: misc"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="L_part1"
+     primer_bind     17..57
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgG1 seamless overhang 5' Heavy chain"
+     misc_feature    47..57
+                     /note="Geneious type: misc"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="L_part2"
+     misc_feature    58..1047
+                     /note="Geneious type: LTR"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="C-region"
+     misc_feature    <58..1050
+                     /note="Geneious type: ORF"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="ORF 13 (frame 2)"
+     gene            58..1047
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IGHG1 C Region"
+     primer_bind     complement(58..85)
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgG1 seamless overhang 3' Heavy chain"
+     misc_feature    61..351
+                     /note="Geneious type: topological domain"
+                     /note="Derived using Geneious Prime 2026.0.2 'Annotate
+                     from Database' based on protein similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgG1 domain CH1"
+     misc_feature    70..114
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand A"
+     misc_feature    115..147
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand B"
+     misc_feature    172..192
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand C"
+     misc_feature    202..225
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand D"
+     misc_feature    250..285
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand E"
+     misc_feature    286..306
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand F"
+     misc_feature    340..369
+                     /note="Geneious type: region"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Strand G"
+     misc_feature    352..1047
+                     /note="fragment crystallizable (Fc) tag used for protein
+                     purification (from human IgG1)"
+                     /note="Derived using Geneious Prime 2022.2.1 'Annotate
+                     from Database' based on protein similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Fc"
+     misc_feature    355..396
+                     /note="Geneious type: domain"
+                     /note="Derived using Geneious Prime 2026.0.2 'Annotate
+                     from Database' based on protein similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Hinge"
+     misc_feature    382..393
+                     /note="Geneious type: motif"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="Disulfide bond"
+     misc_feature    400..726
+                     /note="Geneious type: topological domain"
+                     /note="Derived using Geneious Prime 2026.0.2 'Annotate
+                     from Database' based on protein similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgG1 domain CH2"
+     misc_feature    730..>1038
+                     /note="Geneious type: topological domain"
+                     /note="Derived using Geneious Prime 2026.0.2 'Annotate
+                     from Database' based on protein similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgG1 domain CH3"
+     primer_bind     complement(1018..1064)
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgGH_full_length_with_OH"
+     primer_bind     complement(1018..1037)
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="IgGH_full_length"
+     source          join(4811..43,1104..4810)
+                     /organism="Cloning vector AbVec-hIgG1"
+                     /mol_type="other DNA"
+                     /db_xref="taxon:583342"
+                     /note="expression cloning vector for human antibody
+                     variable genes"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+     misc_feature    1123..1257
+                     /note="Geneious type: polyA_signal"
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="SV40 poly(A) signal"
+     regulatory      1354..1683
+                     /note="Geneious type: promoter"
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="SV40 promoter"
+     rep_origin      1534..1669
+     CDS             1702..1856
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="lacZα (fragment)"
+     rep_origin      complement(1932..2448)
+     regulatory      2669..2773
+                     /note="Geneious type: promoter"
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="AmpR promoter"
+     CDS             2774..3634
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="AmpR"
+     misc_feature    3779..4452
+                     /note="Geneious type: Origin of replication"
+                     /note="Derived using Geneious Prime 2026.0.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="pUC origin"
+     misc_feature    3792..4406
+                     /note="Geneious type: misc"
+                     /gene="rep (pMB1)"
+                     /note="Derived using Geneious Prime 2026.0.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="rep (pMB1) misc"
+     CDS             4576..4668
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="lacI (fragment)"
+     regulatory      4811..5428
+                     /note="Geneious type: promoter"
+                     /note="CMV"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="CMV"
+     regulatory      4824..5203
+                     /note="Geneious type: enhancer"
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="CMV enhancer"
+     CDS             5243..5587
+                     /note="pLannotate"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="UL126 (fragment)"
+     primer_bind     5632..5655
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="SP6 promoter"
+     regulatory      5638..5657
+                     /note="Geneious type: promoter"
+                     /note="SP6 RNA polymerase promoter"
+                     /regulatory_class="promoter"
+                     /note="Derived using Geneious Prime 2022.2.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /note="Derived using Geneious Prime 2026.1.1 'Annotate
+                     from Database' based on nucleotide similarity"
+                     /standard_name="SP6"
+ORIGIN      
+        1 atggaactgg ggctccgctg ggttttcctt gttgctattc tcgagggtgt ccagtgtgct
+       61 agcaccaagg gcccatcggt cttccccctg gcaccctcct ccaagagcac ctctgggggc
+      121 acagcggccc tgggctgcct ggtcaaggac tacttccccg aacctgtgac ggtctcgtgg
+      181 aactcaggcg ccctgaccag cggcgtgcac accttcccgg ctgtcctaca gtcctcagga
+      241 ctctactccc tcagcagcgt ggtgaccgtg ccctccagca gcttgggcac ccagacctac
+      301 atctgcaacg tgaatcacaa gcccagcaac accaaggtgg acaagagagt tgagcccaaa
+      361 tcttgtgaca aaactcacac atgcccaccg tgcccagcac ctgaactcct ggggggaccg
+      421 tcagtcttcc tcttcccccc aaaacccaag gacaccctca tgatctcccg gacccctgag
+      481 gtcacatgcg tggtggtgga cgtgagccac gaagaccctg aggtcaagtt caactggtac
+      541 gtggacggcg tggaggtgca taatgccaag acaaagccgc gggaggagca gtacaacagc
+      601 acgtaccgtg tggtcagcgt cctcaccgtc ctgcaccagg actggctgaa tggcaaggag
+      661 tacaagtgca aggtctccaa caaagccctc ccagccccca tcgagaaaac catctccaaa
+      721 gccaaagggc agccccgaga accacaggtg tacaccctgc ccccatcccg ggaggagatg
+      781 accaagaacc aggtcagcct gacctgcctg gtcaaaggct tctatcccag cgacatcgcc
+      841 gtggagtggg agagcaatgg gcagccggag aacaactaca agaccacgcc tcccgtgctg
+      901 gactccgacg gctccttctt cctctatagc aagctcaccg tggacaagag caggtggcag
+      961 caggggaacg tcttctcatg ctccgtgatg catgaggctc tgcacaacca ctacacgcag
+     1021 aagagcctct ccctgtcccc gggtaaatga gtgcgacggc cggcaagccc ccgctccccg
+     1081 ggctctcgcg gtcgtacgag gaaagcttgg ccgccatggc ccaacttgtt tattgcagct
+     1141 tataatggtt acaaataaag caatagcatc acaaatttca caaataaagc atttttttca
+     1201 ctgcattcta gttgtggttt gtccaaactc atcaatgtat cttatcatgt ctggatcggg
+     1261 aattaattcg gcgcagcacc atggcctgaa ataacctctg aaagaggaac ttggttaggt
+     1321 accttctgag gcggaaagaa ccatctgtgg aatgtgtgtc agttagggtg tggaaagtcc
+     1381 ccaggctccc cagcaggcag aagtatgcaa agcatgcatc tcaattagtc agcaaccagg
+     1441 tgtggaaagt ccccaggctc cccagcaggc agaagtatgc aaagcatgca tctcaattag
+     1501 tcagcaacca tagtcccgcc cctaactccg cccatcccgc ccctaactcc gcccagttcc
+     1561 gcccattctc cgccccatgg ctgactaatt ttttttattt atgcagaggc cgaggccgcc
+     1621 tcggcctctg agctattcca gaagtagtga ggaggctttt ttggaggcct aggcttttgc
+     1681 aaaaagctgt taacagcttg gcactggccg tcgttttaca acgtcgtgac tgggaaaacc
+     1741 ctggcgttac ccaacttaat cgccttgcag cacatccccc tttcgccagt tggcgtaata
+     1801 gcgaagaggc ccgcaccgat cgcccttccc aacagttgcg cagcctgaat ggcgaatggc
+     1861 gcctgatgcg gtattttctc cttacgcatc tgtgcggtat ttcacaccgc atacgtcaaa
+     1921 gcaaccatag tacgcgccct gtagcggcgc attaagcgcg gcgggtgtgg tggttacgcg
+     1981 cagcgtgacc gctacacttg ccagcgccct agcgcccgct cctttcgctt tcttcccttc
+     2041 ctttctcgcc acgttcgccg gctttccccg tcaagctcta aatcgggggc tccctttagg
+     2101 gttccgattt agtgctttac ggcacctcga ccccaaaaaa cttgatttgg gtgatggttc
+     2161 acgtagtggg ccatcgccct gatagacggt ttttcgccct ttgacgttgg agtccacgtt
+     2221 ctttaatagt ggactcttgt tccaaactgg aacaacactc aaccctatct cgggctattc
+     2281 ttttgattta taagggattt tgccgatttc ggcctattgg ttaaaaaatg agctgattta
+     2341 acaaaaattt aacgcgaatt ttaacaaaat attaacgttt acaattttat ggtgcactct
+     2401 cagtacaatc tgctctgatg ccgcatagtt aagccagccc cgacacccgc caacacccgc
+     2461 tgacgcgccc tgacgggctt gtctgctccc ggcatccgct tacagacaag ctgtgaccgt
+     2521 ctccgggagc tgcatgtgtc agaggttttc accgtcatca ccgaaacgcg cgagacgaaa
+     2581 gggcctcgtg atacgcctat ttttataggt taatgtcatg ataataatgg tttcttagac
+     2641 gtcaggtggc acttttcggg gaaatgtgcg cggaacccct atttgtttat ttttctaaat
+     2701 acattcaaat atgtatccgc tcatgagaca ataaccctga taaatgcttc aataatattg
+     2761 aaaaaggaag agtatgagta ttcaacattt ccgtgtcgcc cttattccct tttttgcggc
+     2821 attttgcctt cctgtttttg ctcacccaga aacgctggtg aaagtaaaag atgctgaaga
+     2881 tcagttgggt gcacgagtgg gttacatcga actggatctc aacagcggta agatccttga
+     2941 gagttttcgc cccgaagaac gttttccaat gatgagcact tttaaagttc tgctatgtgg
+     3001 cgcggtatta tcccgtattg acgccgggca agagcaactc ggtcgccgca tacactattc
+     3061 tcagaatgac ttggttgagt actcaccagt cacagaaaag catcttacgg atggcatgac
+     3121 agtaagagaa ttatgcagtg ctgccataac catgagtgat aacactgcgg ccaacttact
+     3181 tctgacaacg atcggaggac cgaaggagct aaccgctttt ttgcacaaca tgggggatca
+     3241 tgtaactcgc cttgatcgtt gggaaccgga gctgaatgaa gccataccaa acgacgagcg
+     3301 tgacaccacg atgcctgtag caatggcaac aacgttgcgc aaactattaa ctggcgaact
+     3361 acttactcta gcttcccggc aacaattaat agactggatg gaggcggata aagttgcagg
+     3421 accacttctg cgctcggccc ttccggctgg ctggtttatt gctgataaat ctggagccgg
+     3481 tgagcgtggg tctcgcggta tcattgcagc actggggcca gatggtaagc cctcccgtat
+     3541 cgtagttatc tacacgacgg ggagtcaggc aactatggat gaacgaaata gacagatcgc
+     3601 tgagataggt gcctcactga ttaagcattg gtaactgtca gaccaagttt actcatatat
+     3661 actttagatt gatttaaaac ttcattttta atttaaaagg atctaggtga agatcctttt
+     3721 tgataatctc atgaccaaaa tcccttaacg tgagttttcg ttccactgag cgtcagaccc
+     3781 cgtagaaaag atcaaaggat cttcttgaga tccttttttt ctgcgcgtaa tctgctgctt
+     3841 gcaaacaaaa aaaccaccgc taccagcggt ggtttgtttg ccggatcaag agctaccaac
+     3901 tctttttccg aaggtaactg gcttcagcag agcgcagata ccaaatactg ttcttctagt
+     3961 gtagccgtag ttaggccacc acttcaagaa ctctgtagca ccgcctacat acctcgctct
+     4021 gctaatcctg ttaccagtgg ctgctgccag tggcgataag tcgtgtctta ccgggttgga
+     4081 ctcaagacga tagttaccgg ataaggcgca gcggtcgggc tgaacggggg gttcgtgcac
+     4141 acagcccagc ttggagcgaa cgacctacac cgaactgaga tacctacagc gtgagctatg
+     4201 agaaagcgcc acgcttcccg aagggagaaa ggcggacagg tatccggtaa gcggcagggt
+     4261 cggaacagga gagcgcacga gggagcttcc agggggaaac gcctggtatc tttatagtcc
+     4321 tgtcgggttt cgccacctct gacttgagcg tcgatttttg tgatgctcgt caggggggcg
+     4381 gagcctatgg aaaaacgcca gcaacgcggc ctttttacgg ttcctggcct tttgctggcc
+     4441 ttttgctcac atgttctttc ctgcgttatc ccctgattct gtggataacc gtattaccgc
+     4501 ctttgagtga gctgataccg ctcgccgcag ccgaacgacc gagcgcagcg agtcagtgag
+     4561 cgaggaagcg gaagagcgcc caatacgcaa accgcctctc cccgcgcgtt ggccgattca
+     4621 ttaatccaac tggcacgaca ggtttcccga ctggaaagcg ggcagtgagc gcaacgcaat
+     4681 taatgtgagt tagctcactc attaggcacc ccaggcttta cactttatgc ttccggctcg
+     4741 tatgttgtgt ggaattgtga gcggataaca atttcacaca ggaaacagct atgacatgat
+     4801 tacgaattaa ttcgagctcg cccgacattg attattgact agttattaat agtaatcaat
+     4861 tacggggtca ttagttcata gcccatatat ggagttccgc gttacataac ttacggtaaa
+     4921 tggcccgcct ggctgaccgc ccaacgaccc ccgcccattg acgtcaataa tgacgtatgt
+     4981 tcccatagta acgccaatag ggactttcca ttgacgtcaa tgggtggagt atttacggta
+     5041 aactgcccac ttggcagtac atcaagtgta tcatatgcca agtacgcccc ctattgacgt
+     5101 caatgacggt aaatggcccg cctggcatta tgcccagtac atgaccttat gggactttcc
+     5161 tacttggcag tacatctacg tattagtcat cgctattacc atggtgatgc ggttttggca
+     5221 gtacatcaat gggcgtggat agcggtttga ctcacgggga tttccaagtc tccaccccat
+     5281 tgacgtcaat gggagtttgt tttggcacca aaatcaacgg gactttccaa aatgtcgtaa
+     5341 caactccgcc ccattgacgc aaatgggcgg taggcgtgta cggtgggagg tctatataag
+     5401 cagagctcgt ttagtgaacc gtcagatcgc ctggagacgc catccacgct gttttgacct
+     5461 ccatagaaga caccgggacc gatccagcct ccgcggccgg gaacggtgca ttggaacgcg
+     5521 gattccccgt gccaagagtg acgtaagtac cgcctataga gtctataggc ccaccccctt
+     5581 ggcttcgtta gaacgcggct acaattaata cataacctta tgtatcatac acatacgatt
+     5641 taggtgacac tatagaataa catccacttt gcctttctct ccacaggtgt ccactcccag
+     5701 gtccaactgc acctcggttc tatcgatttc tagacacc
+//

@@ -1,0 +1,16 @@
+[package]
+name = "abclone-app"
+description = "egui desktop GUI for abclone-verify."
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "abclone-verify"
+path = "src/main.rs"
+
+[dependencies]
+abclone-core = { path = "../core" }
+anyhow.workspace = true
