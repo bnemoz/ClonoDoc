@@ -1,0 +1,23 @@
+[package]
+name = "abclone-core"
+description = "Headless antibody-cloning verification engine (Gate 1 order QC + Gate 2 sequencing QC)."
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "abclone_core"
+path = "src/lib.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+json5.workspace = true
+calamine.workspace = true
+csv.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+rayon.workspace = true
+directories.workspace = true
