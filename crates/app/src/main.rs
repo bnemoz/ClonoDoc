@@ -105,6 +105,29 @@ impl App {
         }
     }
 
+    /// Load the starter library bundled into the binary at build time
+    /// (the pre-populated French IgG1 vector + overhang set).
+    fn load_bundled_library(&mut self) {
+        const BUNDLED: &str = include_str!("../../../reference/example_library.json5");
+        match Library::from_json5(BUNDLED) {
+            Ok(lib) => {
+                self.heavy_vector = lib
+                    .vectors
+                    .iter()
+                    .find(|v| v.chain_class == ChainClass::Heavy)
+                    .map(|v| v.id.clone());
+                self.status = format!(
+                    "Loaded bundled library: {} vector(s), {} overhang set(s)",
+                    lib.vectors.len(),
+                    lib.overhang_sets.len()
+                );
+                self.library = Some(lib);
+                self.library_path = None;
+            }
+            Err(e) => self.status = format!("Bundled library failed to parse: {e}"),
+        }
+    }
+
     fn load_ground_truth_dialog(&mut self) {
         if let Some(path) = rfd::FileDialog::new()
             .add_filter("panel", &["csv", "xlsx", "fasta", "fa"])
@@ -271,6 +294,9 @@ impl App {
         ui.label(egui::RichText::new("Library (lab-global)").strong());
         if ui.button("📂 Load Library…").clicked() {
             self.load_library_dialog();
+        }
+        if ui.button("✨ Use bundled example library").clicked() {
+            self.load_bundled_library();
         }
         if let Some(lib) = &self.library {
             ui.label(format!("{} vector(s)", lib.vectors.len()));
