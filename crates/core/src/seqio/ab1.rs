@@ -107,12 +107,11 @@ pub fn parse(b: &[u8]) -> std::result::Result<Ab1, String> {
                     }
                 }
             }
-            "PCON"
-                if (entry.element_type == 1 || entry.element_type == 2) => {
-                    if let Some(data) = entry.data(b, raw_offset_field) {
-                        quality = Some(data.to_vec());
-                    }
+            "PCON" if (entry.element_type == 1 || entry.element_type == 2) => {
+                if let Some(data) = entry.data(b, raw_offset_field) {
+                    quality = Some(data.to_vec());
                 }
+            }
             _ => {}
         }
     }

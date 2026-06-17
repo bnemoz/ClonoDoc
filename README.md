@@ -75,31 +75,65 @@ in `docs/03_ARCHITECTURE.md`.
 
 ---
 
-## Repository layout (target)
+## Repository layout
 
 ```
 abclone-verify/
-├── README.md                     ← this file
-├── docs/
-│   ├── 01_DESIGN.md              ← biology, algorithms, failure taxonomy (the WHAT & WHY)
-│   ├── 02_CONFIG_SCHEMA.md       ← annotated library + project config (json5)
-│   ├── 03_ARCHITECTURE.md        ← Rust crates, modules, data flow, UI, threading
-│   ├── 04_NAMING.md              ← configurable sample-name parser + chain pairing
-│   └── 05_IMPLEMENTATION_PLAN.md ← phased build for Claude Code + test fixtures
+├── README.md
+├── Cargo.toml                    ← workspace
+├── docs/                         ← design docs (01–05)
 ├── reference/
 │   ├── verified_facts.md         ← empirically confirmed data used as fixtures
 │   └── example_library.json5     ← pre-populated French IgG1 vector + overhang sets
-└── (src/, Cargo.toml, tests/ …   ← created by Claude Code during implementation)
+├── test_data/                    ← real fixtures (vector .gb, order .fasta/.xlsx)
+└── crates/
+    ├── core/                     ← headless verification engine (no UI) + golden tests
+    │   └── src/{seq,seqio,model,naming,align,assemble,gate1,gate2,report,workflow}.rs
+    ├── cli/                      ← `abclone-cli` headless runner
+    └── app/                      ← `abclone-verify` egui desktop GUI
 ```
 
-## Build (target behavior, for Claude Code to realize)
+> **Implementation note.** The pairwise aligner is a self-contained affine-gap
+> (Gotoh) implementation with BLOSUM62 + configurable nt scoring, rather than a
+> third-party bioinformatics crate. The sequences here are short (≤ ~6 kb) so a
+> local, deterministic, exactly-testable aligner is the cleaner, dependency-light
+> choice (`crates/core/src/align.rs`). Everything else follows the docs.
+
+## Build & run
 
 ```bash
-cargo build --release            # → target/release/abclone-verify[.exe]
+cargo build --release                  # GUI  → target/release/abclone-verify[.exe]
+                                        # CLI  → target/release/abclone-cli
+cargo test -p abclone-core             # 48 tests incl. the golden PASS/FAIL fixtures
 ```
 
-Single binary, no external runtime. Cross-compilation targets: `x86_64-pc-windows-gnu`,
-`x86_64-unknown-linux-gnu`, `aarch64-apple-darwin` / `x86_64-apple-darwin`.
+The GUI is a single self-contained binary (egui/eframe; no webview, no installer).
+On Linux, building the GUI needs the usual X/Wayland dev packages (see `.github/workflows/ci.yml`);
+the engine and CLI have no system dependencies.
+
+### CLI quick start
+
+```bash
+# Gate 1 — order QC (pre-cloning); writes a CSV + HTML report.
+abclone-cli gate1 \
+  --library reference/example_library.json5 \
+  --order   test_data/IDT_ordered_sequences_correct.fasta \
+  --csv order_qc.csv --html order_qc.html
+
+# Gate 1 catches the 379-nt junction frameshift in an untrimmed order:
+abclone-cli gate1 --library reference/example_library.json5 \
+  --order test_data/IDT_order_correct.xlsx --no-overhangs
+
+# Gate 2 — sequencing QC (post-cloning):
+abclone-cli gate2 --library reference/example_library.json5 \
+  --order test_data/IDT_ordered_sequences_correct.fasta --reads my_plasmids.fasta
+
+# Inspect a GenBank vector's feature table:
+abclone-cli inspect-vector test_data/IgG1_heavy_chain_french_vector.gb
+```
+
+Cross-compilation targets: `x86_64-pc-windows-gnu`, `x86_64-unknown-linux-gnu`,
+`aarch64-apple-darwin` / `x86_64-apple-darwin`.
 
 ---
 

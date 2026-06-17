@@ -14,3 +14,6 @@ path = "src/main.rs"
 [dependencies]
 abclone-core = { path = "../core" }
 anyhow.workspace = true
+eframe = "0.31"
+egui = "0.31"
+rfd = "0.15"

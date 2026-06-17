@@ -134,9 +134,7 @@ fn reconstruct_ab_id(
             // Only treat as a suffix strip if the token is genuinely at the end.
             if pos + token.len() == original.len() {
                 let head = &original[..pos];
-                return head
-                    .trim_end_matches(['_', '-', ' ', ':'])
-                    .to_string();
+                return head.trim_end_matches(['_', '-', ' ', ':']).to_string();
             }
         }
     }
@@ -177,9 +175,7 @@ fn try_regex(record_id: &str, _rx: &str) -> Option<NameParse> {
     for (suffix, class) in SUFFIXES {
         if lower.ends_with(suffix) {
             let head = &record_id[..record_id.len() - suffix.len()];
-            let ab_id = head
-                .trim_end_matches(['_', '-', ' ', ':'])
-                .to_string();
+            let ab_id = head.trim_end_matches(['_', '-', ' ', ':']).to_string();
             if !ab_id.is_empty() {
                 return Some(NameParse {
                     ab_id,

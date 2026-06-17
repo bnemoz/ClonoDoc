@@ -26,6 +26,7 @@ pub mod report;
 pub mod seq;
 pub mod seqio;
 pub mod verdict;
+pub mod workflow;
 
 pub use verdict::{Gate1Verdict, Gate2Verdict, Severity};
 

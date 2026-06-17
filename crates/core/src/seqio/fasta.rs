@@ -27,11 +27,7 @@ pub fn parse(text: &str) -> Vec<SeqRecord> {
                 cur_seq.clear();
             }
             // The id is the first whitespace-delimited token after '>'.
-            let id = rest
-                .split_whitespace()
-                .next()
-                .unwrap_or("")
-                .to_string();
+            let id = rest.split_whitespace().next().unwrap_or("").to_string();
             cur_id = Some(id);
         } else if cur_id.is_some() {
             cur_seq.push_str(line.trim());
