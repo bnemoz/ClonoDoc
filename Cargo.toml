@@ -1,4 +1,4 @@
-# abclone-verify — Antibody Cloning Verifier
+# ClonoDoc — antibody cloning verifier
 # Cargo workspace: a headless verification engine (core), a CLI, and an egui GUI.
 [workspace]
 resolver = "2"
@@ -13,7 +13,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Benjamin <bnemoz@scripps.edu>"]
 license = "MIT"
-repository = "https://github.com/scripps/abclone-verify"
+repository = "https://github.com/bnemoz/ClonoDoc"
 
 [workspace.dependencies]
 serde = { version = "1", features = ["derive"] }

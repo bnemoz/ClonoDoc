@@ -22,9 +22,9 @@ jobs:
       - name: rustfmt
         run: cargo fmt --all --check
       - name: clippy (core + cli)
-        run: cargo clippy -p abclone-core -p abclone-cli --all-targets -- -D warnings
+        run: cargo clippy -p clonodoc-core -p clonodoc-cli --all-targets -- -D warnings
       - name: test
-        run: cargo test -p abclone-core -p abclone-cli
+        run: cargo test -p clonodoc-core -p clonodoc-cli
 
   # The GUI links against system graphics libs; build it per-OS.
   app:
@@ -46,6 +46,16 @@ jobs:
             libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
       - name: clippy (app, Linux only)
         if: runner.os == 'Linux'
-        run: cargo clippy -p abclone-app --all-targets -- -D warnings
-      - name: build release binary
-        run: cargo build --release -p abclone-app
+        run: cargo clippy -p clonodoc-app --all-targets -- -D warnings
+      - name: build release binaries (GUI + CLI)
+        run: cargo build --release -p clonodoc-app -p clonodoc-cli
+      - name: upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: clonodoc-${{ runner.os }}
+          path: |
+            target/release/clonodoc
+            target/release/clonodoc.exe
+            target/release/clonodoc-cli
+            target/release/clonodoc-cli.exe
+          if-no-files-found: ignore

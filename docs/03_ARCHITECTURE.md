@@ -30,7 +30,7 @@ the verification engine is testable headlessly.
 ## 2. Crate layout (workspace)
 
 ```
-abclone-verify/
+clonodoc/
 ├── Cargo.toml                  # [workspace]
 ├── crates/
 │   ├── core/                   # headless verification engine (no UI deps) — lib

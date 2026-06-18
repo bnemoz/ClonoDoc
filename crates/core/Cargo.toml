@@ -1,5 +1,5 @@
 [package]
-name = "abclone-core"
+name = "clonodoc-core"
 description = "Headless antibody-cloning verification engine (Gate 1 order QC + Gate 2 sequencing QC)."
 version.workspace = true
 edition.workspace = true
@@ -8,7 +8,7 @@ license.workspace = true
 repository.workspace = true
 
 [lib]
-name = "abclone_core"
+name = "clonodoc_core"
 path = "src/lib.rs"
 
 [dependencies]

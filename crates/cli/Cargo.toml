@@ -1,6 +1,6 @@
 [package]
-name = "abclone-cli"
-description = "Headless command-line runner for abclone-verify (Gate 1 / Gate 2)."
+name = "clonodoc-cli"
+description = "Headless command-line runner for clonodoc (Gate 1 / Gate 2)."
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
@@ -8,9 +8,9 @@ license.workspace = true
 repository.workspace = true
 
 [[bin]]
-name = "abclone-cli"
+name = "clonodoc-cli"
 path = "src/main.rs"
 
 [dependencies]
-abclone-core = { path = "../core" }
+clonodoc-core = { path = "../core" }
 anyhow.workspace = true

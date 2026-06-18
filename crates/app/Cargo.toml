@@ -1,6 +1,6 @@
 [package]
-name = "abclone-app"
-description = "egui desktop GUI for abclone-verify."
+name = "clonodoc-app"
+description = "egui desktop GUI for clonodoc."
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
@@ -8,11 +8,11 @@ license.workspace = true
 repository.workspace = true
 
 [[bin]]
-name = "abclone-verify"
+name = "clonodoc"
 path = "src/main.rs"
 
 [dependencies]
-abclone-core = { path = "../core" }
+clonodoc-core = { path = "../core" }
 anyhow.workspace = true
 eframe = "0.31"
 egui = "0.31"

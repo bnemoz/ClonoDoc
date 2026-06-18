@@ -1,9 +1,9 @@
-//! abclone-core — the headless verification engine for `abclone-verify`.
+//! clonodoc-core — the headless verification engine for `clonodoc`.
 //!
 //! This crate contains **zero** UI dependencies. Every verdict the tool can
 //! produce is computed here and exercised by the integration tests against the
-//! fixtures in `reference/` and `test_data/`. The GUI (`abclone-app`) and the
-//! CLI (`abclone-cli`) are thin orchestration layers over this engine.
+//! fixtures in `reference/` and `test_data/`. The GUI (`clonodoc-app`) and the
+//! CLI (`clonodoc-cli`) are thin orchestration layers over this engine.
 //!
 //! Reading order mirrors `docs/`:
 //! * [`seq`]    — sequence primitives (alphabet detection, translation).
