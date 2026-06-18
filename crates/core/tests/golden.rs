@@ -99,6 +99,40 @@ fn overhangs_map_to_vector_positions() {
     assert_ne!(set.oh3(Locus::Igk), set.oh3(Locus::Igl));
 }
 
+#[test]
+fn guided_genbank_import_builds_correct_vector() {
+    // The first-use library builder: import the .gb + the bundled overhang set,
+    // and it must reproduce the verified insertion site and constant anchor.
+    let lib = load_library();
+    let set = lib.overhang_set("french_default").unwrap();
+    let gb =
+        genbank::read_path(&root().join("test_data/IgG1_heavy_chain_french_vector.gb")).unwrap();
+    let v = clonodoc_core::workflow::vector_from_genbank(
+        &gb,
+        "my_heavy",
+        "My Heavy Vector",
+        ChainClass::Heavy,
+        "IgG1",
+        set,
+        Locus::Igh,
+        "tester",
+    );
+    assert_eq!(v.length, 5738);
+    assert!(v.topology.eq_ignore_ascii_case("circular"));
+    // Overhangs located in the vector → insertion site 57/57 (verified_facts §3).
+    assert_eq!(v.insertion_site.oh5_end, 57);
+    assert_eq!(v.insertion_site.oh3_start, 57);
+    assert_eq!(v.constant_anchor_aa, "ASTKGPSV");
+    assert_eq!(v.compute_sha256(), v.sequence_sha256);
+
+    // And the built vector is usable: a 378-core assembles to a productive ORF.
+    let core = heavy_core_378();
+    let orf = seq::translate(&assemble::assemble(&v, &core));
+    let stop = orf.find('*').unwrap();
+    assert_eq!(stop, 475);
+    assert!(orf[..stop].contains(&v.constant_anchor_aa));
+}
+
 // --- Phase 3: the two golden assembly fixtures ------------------------------
 
 fn heavy_core_378() -> String {

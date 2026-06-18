@@ -3,11 +3,83 @@
 //! order file. Keeps both front-ends thin and consistent.
 
 use crate::assemble;
-use crate::model::{ChainClass, Library, Locus, Project};
+use crate::model::{
+    sha256_hex, ChainClass, InsertionSite, Library, Locus, OverhangSet, Project, Provenance, Vector,
+};
 use crate::naming;
 use crate::seq;
+use crate::seqio::genbank::GbRecord;
 use crate::seqio::SeqRecord;
 use std::collections::BTreeMap;
+
+/// Build a [`Vector`] from a parsed GenBank record for the guided library
+/// importer (first-use library construction). The insertion site is located by
+/// finding the chosen overhang set's 5′/3′ arms in the vector sequence; if they
+/// are not present (different overhangs), it falls back to the signal-peptide /
+/// constant-region feature boundaries. The constant-region protein anchor is
+/// read off the in-frame translation just past the insertion site.
+#[allow(clippy::too_many_arguments)]
+pub fn vector_from_genbank(
+    gb: &GbRecord,
+    id: &str,
+    display_name: &str,
+    chain_class: ChainClass,
+    isotype: &str,
+    set: &OverhangSet,
+    locus: Locus,
+    added_by: &str,
+) -> Vector {
+    let sequence = seq::clean(&gb.sequence);
+    let features = crate::seqio::genbank::map_roles(gb);
+
+    // Locate overhangs in the vector to compute the insertion site.
+    let oh5 = set.oh5(locus).unwrap_or("");
+    let oh3 = set.oh3(locus).unwrap_or("");
+    let oh5_end = match (!oh5.is_empty()).then(|| sequence.find(oh5)).flatten() {
+        Some(p) => p + oh5.len(),
+        None => features
+            .get("signal_peptide")
+            .map(|f| f.range0().end)
+            .unwrap_or(0),
+    };
+    let oh3_start = match (!oh3.is_empty()).then(|| sequence.find(oh3)).flatten() {
+        Some(p) => p,
+        None => features
+            .get("constant_region")
+            .map(|f| f.range0().start)
+            .unwrap_or(oh5_end),
+    };
+
+    // Constant-region anchor: first residues of the in-frame translation
+    // beginning at the insertion site (codon-invariant backbone).
+    let anchor: String = seq::translate_to_stop(&sequence[oh3_start.min(sequence.len())..])
+        .chars()
+        .take(8)
+        .collect();
+
+    let length = sequence.len();
+    let sha = sha256_hex(&sequence);
+    Vector {
+        id: id.to_string(),
+        display_name: display_name.to_string(),
+        chain_class,
+        isotype: isotype.to_string(),
+        topology: if gb.circular { "circular" } else { "linear" }.to_string(),
+        length,
+        sequence,
+        sequence_sha256: sha,
+        features,
+        insertion_site: InsertionSite { oh5_end, oh3_start },
+        constant_anchor_aa: anchor,
+        overhang_set: set.id.clone(),
+        overhang_locus: locus,
+        provenance: Provenance {
+            added_by: added_by.to_string(),
+            added: String::new(),
+            source_file: Some(gb.name.clone()),
+        },
+    }
+}
 
 /// Build an in-memory project: assign the chosen (or first) heavy/κ/λ vectors,
 /// the chosen (or first) overhang set, and the first naming profile.

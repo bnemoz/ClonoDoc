@@ -136,9 +136,61 @@ pub fn read_xlsx_id_seq(path: &Path) -> Result<Vec<SeqRecord>> {
 // Ground-truth panel (ab_id + H_seq + L_seq), CSV / XLSX / FASTA
 // ---------------------------------------------------------------------------
 
-const AB_ALIASES: &[&str] = &["ab_id", "abid", "antibody", "id", "name"];
-const HEAVY_ALIASES: &[&str] = &["h_seq", "hseq", "heavy", "heavyseq", "hc", "vh", "h"];
-const LIGHT_ALIASES: &[&str] = &["l_seq", "lseq", "light", "lightseq", "lc", "vl", "l"];
+const AB_ALIASES: &[&str] = &[
+    "ab_id",
+    "abid",
+    "antibody",
+    "antibodyid",
+    "id",
+    "name",
+    "sequence_id",
+    "seqid",
+    "sequenceid",
+    "clone",
+    "cloneid",
+    "clone_id",
+    "mab",
+    "mabid",
+];
+const HEAVY_ALIASES: &[&str] = &[
+    "h_seq",
+    "hseq",
+    "heavy",
+    "heavyseq",
+    "heavy_seq",
+    "heavychain",
+    "hchain",
+    "hc",
+    "vh",
+    "vh_aa",
+    "heavy_aa",
+    "h",
+];
+const LIGHT_ALIASES: &[&str] = &[
+    "l_seq",
+    "lseq",
+    "light",
+    "lightseq",
+    "light_seq",
+    "lightchain",
+    "lchain",
+    "lc",
+    "vl",
+    "vl_aa",
+    "light_aa",
+    "l",
+];
+
+/// Return the header row of a CSV/XLSX table (for an in-app column-mapping UI).
+pub fn read_headers(path: &Path) -> Result<Vec<String>> {
+    let fmt = super::resolve_format(path, "");
+    let (headers, _) = if fmt == "csv" {
+        csv_rows(path)?
+    } else {
+        xlsx_rows(path)?
+    };
+    Ok(headers)
+}
 
 /// Read a ground-truth panel from a table (CSV/XLSX), honoring optional column
 /// aliases supplied by the project (`columns: { ab_id, heavy, light }`).

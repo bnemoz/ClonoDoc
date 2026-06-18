@@ -1,0 +1,59 @@
+name: Release
+
+# Tag a commit (e.g. v0.1.0) and push the tag to publish binaries to a GitHub Release.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: clonodoc-linux-x86_64
+          - os: windows-latest
+            asset: clonodoc-windows-x86_64
+          - os: macos-latest
+            asset: clonodoc-macos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Linux GUI deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libxcb-render0-dev libxcb-shape0-dev \
+            libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+      - name: build
+        run: cargo build --release -p clonodoc-app -p clonodoc-cli
+      - name: stage (unix)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p dist
+          cp target/release/clonodoc target/release/clonodoc-cli dist/
+          cp README.md reference/example_library.json5 dist/
+          tar -C dist -czf ${{ matrix.asset }}.tar.gz .
+      - name: stage (windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item target/release/clonodoc.exe,target/release/clonodoc-cli.exe dist/
+          Copy-Item README.md,reference/example_library.json5 dist/
+          Compress-Archive -Path dist/* -DestinationPath ${{ matrix.asset }}.zip
+      - name: publish
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ matrix.asset }}.tar.gz
+            ${{ matrix.asset }}.zip
+          fail_on_unmatched_files: false
