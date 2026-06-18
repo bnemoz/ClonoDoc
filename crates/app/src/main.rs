@@ -1,16 +1,16 @@
-//! `abclone-verify` — the egui desktop GUI (`docs/03_ARCHITECTURE.md` §6).
+//! `clonodoc` — the egui desktop GUI (`docs/03_ARCHITECTURE.md` §6).
 //!
-//! A thin front-end over `abclone-core`: a project/library sidebar, the four load
+//! A thin front-end over `clonodoc-core`: a project/library sidebar, the four load
 //! buttons, Setup / Gate 1 / Gate 2 tabs, colored verdict tables, and a detail
-//! pane. All verification logic lives in `abclone-core`; this file is only UI.
+//! pane. All verification logic lives in `clonodoc-core`; this file is only UI.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use abclone_core::gate1::Gate1Context;
-use abclone_core::gate2::{Gate2Context, SeqMode};
-use abclone_core::model::{ChainClass, Library, Project};
-use abclone_core::seqio::{self, fasta, GroundTruthRow, SeqRecord};
-use abclone_core::verdict::{Gate1Verdict, Gate2Verdict};
-use abclone_core::{naming, report, workflow};
+use clonodoc_core::gate1::Gate1Context;
+use clonodoc_core::gate2::{Gate2Context, SeqMode};
+use clonodoc_core::model::{ChainClass, Library, Project};
+use clonodoc_core::seqio::{self, fasta, GroundTruthRow, SeqRecord};
+use clonodoc_core::verdict::{Gate1Verdict, Gate2Verdict};
+use clonodoc_core::{naming, report, workflow};
 use eframe::egui;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -19,11 +19,11 @@ fn main() -> eframe::Result<()> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([1100.0, 720.0])
-            .with_title("abclone-verify"),
+            .with_title("ClonoDoc"),
         ..Default::default()
     };
     eframe::run_native(
-        "abclone-verify",
+        "clonodoc",
         options,
         Box::new(|_cc| {
             // Orders normally carry overhangs; start with that assumption.
@@ -166,7 +166,7 @@ impl App {
             .pick_file()
         {
             let res = if path.extension().and_then(|e| e.to_str()) == Some("ab1") {
-                abclone_core::seqio::ab1::read_path(&path)
+                clonodoc_core::seqio::ab1::read_path(&path)
                     .map(|a| {
                         vec![SeqRecord {
                             id: path
@@ -287,7 +287,7 @@ impl eframe::App for App {
 
 impl App {
     fn sidebar(&mut self, ui: &mut egui::Ui) {
-        ui.heading("abclone-verify");
+        ui.heading("ClonoDoc");
         ui.label("Antibody cloning verifier");
         ui.separator();
 

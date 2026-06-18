@@ -1,4 +1,4 @@
-# Antibody Cloning Verifier (`abclone-verify`)
+# ClonoDoc
 
 A small, portable, cross-platform (Windows / Linux / macOS) desktop application that
 verifies antibody cloning at two independent stages:
@@ -78,7 +78,7 @@ in `docs/03_ARCHITECTURE.md`.
 ## Repository layout
 
 ```
-abclone-verify/
+clonodoc/
 ├── README.md
 ├── Cargo.toml                    ← workspace
 ├── docs/                         ← design docs (01–05)
@@ -89,8 +89,8 @@ abclone-verify/
 └── crates/
     ├── core/                     ← headless verification engine (no UI) + golden tests
     │   └── src/{seq,seqio,model,naming,align,assemble,gate1,gate2,report,workflow}.rs
-    ├── cli/                      ← `abclone-cli` headless runner
-    └── app/                      ← `abclone-verify` egui desktop GUI
+    ├── cli/                      ← `clonodoc-cli` headless runner
+    └── app/                      ← `clonodoc` egui desktop GUI
 ```
 
 > **Implementation note.** The pairwise aligner is a self-contained affine-gap
@@ -102,9 +102,9 @@ abclone-verify/
 ## Build & run
 
 ```bash
-cargo build --release                  # GUI  → target/release/abclone-verify[.exe]
-                                        # CLI  → target/release/abclone-cli
-cargo test -p abclone-core             # 48 tests incl. the golden PASS/FAIL fixtures
+cargo build --release                  # GUI  → target/release/clonodoc[.exe]
+                                        # CLI  → target/release/clonodoc-cli
+cargo test -p clonodoc-core             # 48 tests incl. the golden PASS/FAIL fixtures
 ```
 
 The GUI is a single self-contained binary (egui/eframe; no webview, no installer).
@@ -115,21 +115,21 @@ the engine and CLI have no system dependencies.
 
 ```bash
 # Gate 1 — order QC (pre-cloning); writes a CSV + HTML report.
-abclone-cli gate1 \
+clonodoc-cli gate1 \
   --library reference/example_library.json5 \
   --order   test_data/IDT_ordered_sequences_correct.fasta \
   --csv order_qc.csv --html order_qc.html
 
 # Gate 1 catches the 379-nt junction frameshift in an untrimmed order:
-abclone-cli gate1 --library reference/example_library.json5 \
+clonodoc-cli gate1 --library reference/example_library.json5 \
   --order test_data/IDT_order_correct.xlsx --no-overhangs
 
 # Gate 2 — sequencing QC (post-cloning):
-abclone-cli gate2 --library reference/example_library.json5 \
+clonodoc-cli gate2 --library reference/example_library.json5 \
   --order test_data/IDT_ordered_sequences_correct.fasta --reads my_plasmids.fasta
 
 # Inspect a GenBank vector's feature table:
-abclone-cli inspect-vector test_data/IgG1_heavy_chain_french_vector.gb
+clonodoc-cli inspect-vector test_data/IgG1_heavy_chain_french_vector.gb
 ```
 
 Cross-compilation targets: `x86_64-pc-windows-gnu`, `x86_64-unknown-linux-gnu`,

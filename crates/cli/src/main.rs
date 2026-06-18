@@ -1,25 +1,25 @@
-//! `abclone-cli` — a thin headless runner over `abclone-core`.
+//! `clonodoc-cli` — a thin headless runner over `clonodoc-core`.
 //!
 //! Usage:
-//!   abclone-cli gate1 --library <lib.json5> --order <order.fasta|xlsx>
+//!   clonodoc-cli gate1 --library <lib.json5> --order <order.fasta|xlsx>
 //!                     [--ground-truth <panel.csv|xlsx>] [--heavy-vector <id>]
 //!                     [--overhang-set <id>] [--no-overhangs]
 //!                     [--csv <out.csv>] [--html <out.html>]
-//!   abclone-cli gate2 --library <lib.json5> --order <order.fasta> --reads <reads.fasta>
+//!   clonodoc-cli gate2 --library <lib.json5> --order <order.fasta> --reads <reads.fasta>
 //!                     [--ground-truth <panel>] [--partial-sanger]
 //!                     [--csv <out.csv>] [--html <out.html>]
-//!   abclone-cli inspect-vector <vector.gb>
+//!   clonodoc-cli inspect-vector <vector.gb>
 //!
 //! It builds an in-memory project (heavy vector assigned, first overhang set /
 //! naming profile) so a lab member can run a QC gate from one command.
 
-use abclone_core::gate1::Gate1Context;
-use abclone_core::gate2::{Gate2Context, SeqMode};
-use abclone_core::model::{ChainClass, Library, Project};
-use abclone_core::report;
-use abclone_core::seqio::{self, fasta, genbank, GroundTruthRow, SeqRecord};
-use abclone_core::{naming, workflow};
 use anyhow::{anyhow, bail, Context, Result};
+use clonodoc_core::gate1::Gate1Context;
+use clonodoc_core::gate2::{Gate2Context, SeqMode};
+use clonodoc_core::model::{ChainClass, Library, Project};
+use clonodoc_core::report;
+use clonodoc_core::seqio::{self, fasta, genbank, GroundTruthRow, SeqRecord};
+use clonodoc_core::{naming, workflow};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
@@ -103,7 +103,7 @@ fn run() -> Result<()> {
 
 fn print_usage() {
     eprintln!(
-        "abclone-cli — antibody cloning verifier\n\n\
+        "clonodoc-cli — ClonoDoc antibody cloning verifier\n\n\
          COMMANDS\n  \
          gate1  --library L --order O [--ground-truth G] [--heavy-vector ID] [--overhang-set ID] [--no-overhangs] [--csv F] [--html F]\n  \
          gate2  --library L --order O --reads R [--ground-truth G] [--partial-sanger] [--csv F] [--html F]\n  \
@@ -279,7 +279,7 @@ fn cmd_inspect_vector(args: &Args) -> Result<()> {
     Ok(())
 }
 
-fn print_gate1_table(verdicts: &[abclone_core::verdict::Gate1Verdict]) {
+fn print_gate1_table(verdicts: &[clonodoc_core::verdict::Gate1Verdict]) {
     println!(
         "{:<48} {:<8} {:<22} {:<8}",
         "RECORD", "CHAIN", "VERDICT", "READTHRU"
@@ -297,7 +297,7 @@ fn print_gate1_table(verdicts: &[abclone_core::verdict::Gate1Verdict]) {
     }
 }
 
-fn print_gate2_table(verdicts: &[abclone_core::verdict::Gate2Verdict]) {
+fn print_gate2_table(verdicts: &[clonodoc_core::verdict::Gate2Verdict]) {
     println!(
         "{:<40} {:<8} {:<20} {:<14} {:<8}",
         "RECORD", "CHAIN", "VERDICT", "BACKBONE", "ID%"

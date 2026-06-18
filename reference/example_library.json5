@@ -1,5 +1,5 @@
 // ============================================================================
-//  example_library.json5  —  starter lab library for abclone-verify
+//  example_library.json5  —  starter lab library for clonodoc
 //  Pre-populated with Benjamin's French IgG1 heavy-chain vector and the
 //  French overhang set. Copy to your config dir (see docs/02) and enrich.
 //  Format: json5 (comments + trailing commas allowed).

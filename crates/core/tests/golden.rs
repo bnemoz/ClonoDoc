@@ -2,14 +2,14 @@
 //! `test_data/`. These encode the empirically-verified facts in
 //! `reference/verified_facts.md` and must never regress.
 
-use abclone_core::assemble;
-use abclone_core::gate1::Gate1Context;
-use abclone_core::gate2::{Gate2Context, SeqMode};
-use abclone_core::model::Library;
-use abclone_core::model::{ChainClass, Locus, Project};
-use abclone_core::seq;
-use abclone_core::seqio::{self, fasta, genbank, SeqRecord};
-use abclone_core::verdict::{Gate1Kind, Gate2Kind};
+use clonodoc_core::assemble;
+use clonodoc_core::gate1::Gate1Context;
+use clonodoc_core::gate2::{Gate2Context, SeqMode};
+use clonodoc_core::model::Library;
+use clonodoc_core::model::{ChainClass, Locus, Project};
+use clonodoc_core::seq;
+use clonodoc_core::seqio::{self, fasta, genbank, SeqRecord};
+use clonodoc_core::verdict::{Gate1Kind, Gate2Kind};
 use std::collections::BTreeMap;
 use std::path::PathBuf;
 
@@ -247,7 +247,7 @@ fn full_plasmid_read(core: &str) -> String {
 fn gate2_ctx<'a>(
     lib: &'a Library,
     project: &'a Project,
-    set: &'a abclone_core::model::OverhangSet,
+    set: &'a clonodoc_core::model::OverhangSet,
     cores: BTreeMap<(String, ChainClass), String>,
     mode: SeqMode,
 ) -> Gate2Context<'a> {

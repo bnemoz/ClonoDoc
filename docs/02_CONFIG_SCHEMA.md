@@ -14,9 +14,9 @@ self-documenting. All examples below are valid json5.
 ## 1. Library file — `library.json5`
 
 Default location (per-OS, via the `directories` crate):
-- Linux: `~/.config/abclone-verify/library.json5`
-- macOS: `~/Library/Application Support/abclone-verify/library.json5`
-- Windows: `%APPDATA%\abclone-verify\library.json5`
+- Linux: `~/.config/clonodoc/library.json5`
+- macOS: `~/Library/Application Support/clonodoc/library.json5`
+- Windows: `%APPDATA%\clonodoc\library.json5`
 
 A lab can instead point the app at a **shared** path (network drive, synced folder) so
 everyone reads/writes the same library. The app must merge-import additively and dedupe
