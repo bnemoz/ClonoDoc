@@ -46,8 +46,9 @@ impl ChainClass {
 }
 
 /// An immunoglobulin locus / overhang key.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 pub enum Locus {
+    #[default]
     #[serde(rename = "IGH")]
     Igh,
     #[serde(rename = "IGK")]
@@ -270,6 +271,20 @@ impl Library {
     pub fn load(path: impl AsRef<Path>) -> Result<Library> {
         let text = std::fs::read_to_string(&path)?;
         Library::from_json5(&text)
+    }
+
+    /// A fresh library with no vectors/overhang sets but with the default naming
+    /// profile, alignment settings, and optimization checks in place — a sane
+    /// starting point for building a library from scratch (first use).
+    pub fn empty() -> Library {
+        Library {
+            schema_version: default_schema_version(),
+            vectors: Vec::new(),
+            overhang_sets: Vec::new(),
+            naming_profiles: vec![crate::naming::default_profile()],
+            alignment: AlignmentSettings::default(),
+            optimization_checks: OptimizationChecks::default(),
+        }
     }
 
     pub fn from_json5(text: &str) -> Result<Library> {

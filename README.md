@@ -137,6 +137,49 @@ Cross-compilation targets: `x86_64-pc-windows-gnu`, `x86_64-unknown-linux-gnu`,
 
 ---
 
+## First use: build your library (GUI)
+
+You don't need a hand-written `library.json5` to start. In the GUI:
+
+1. **Library ▸ New** — starts a library with the default naming profile + a starter
+   overhang set (no vectors yet). *(Or **Example** to load the bundled French IgG1 vector.)*
+2. **Library ▸ Add vector from GenBank…** — pick your vector's `.gb` file, set the
+   id / display name / isotype, choose its **locus** (IGH / IGK / IGL) and **overhang set**.
+   ClonoDoc locates the overhangs in the vector to compute the insertion site and reads
+   the constant-region anchor off the translation — all automatically.
+3. **Library ▸ Save library…** — writes `library.json5` you can reuse and share.
+
+Repeat step 2 for your κ and λ light-chain vectors. If your overhangs differ from the
+starter set, edit the `oh_5` / `oh_3` strings in the saved `library.json5` (or we can add
+an in-app overhang editor — ask).
+
+### Ground truth with custom column names
+
+The ground-truth panel can be CSV/XLSX with **any** column names. After loading it on the
+Setup tab, a **Ground-truth columns** mapper appears — point *Antibody id*, *Heavy sequence*,
+and *Light sequence* at your columns and click **Apply** (common names like `ab_id`, `H_seq`,
+`sequence_id` are auto-detected). A FASTA panel (chain in the header) also works.
+
+### Loading many sequencing files
+
+**Sequencing files…** selects multiple `.ab1`/`.fasta` at once; **Sequencing folder…**
+ingests every `.ab1`/`.fasta` in a directory. Both gates **re-read their inputs from disk
+on every run**, so you can fix a file and just click *Run* again.
+
+## Windows: "unknown publisher" warning
+
+The binaries are not code-signed, so Windows SmartScreen/Defender may warn on first launch.
+The `.exe` carries embedded publisher/version metadata, but removing the warning entirely
+requires Authenticode signing with a (paid) certificate. To run it:
+
+- Double-click → **More info** → **Run anyway**, or
+- In PowerShell: `Unblock-File .\clonodoc.exe`
+
+Prefer downloading binaries from the **GitHub Releases** page (tag a commit `vX.Y.Z` to
+trigger the release workflow), which is more reputable to SmartScreen than a raw artifact.
+
+---
+
 ## Reading order for the implementer
 
 1. `reference/verified_facts.md` — ground-truth data and fixtures (start here).
