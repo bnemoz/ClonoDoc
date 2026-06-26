@@ -18,6 +18,7 @@
 
 pub mod align;
 pub mod assemble;
+pub mod coverage;
 pub mod gate1;
 pub mod gate2;
 pub mod model;

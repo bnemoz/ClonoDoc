@@ -63,14 +63,70 @@ struct AddVectorForm {
     error: String,
 }
 
+/// All per-project (campaign) state. The library is global and lives on `App`;
+/// everything here is swapped when the user switches projects in the sidebar.
+#[derive(Clone)]
+struct ProjectState {
+    name: String,
+    heavy_vector: Option<String>,
+    ground_truth: Vec<GroundTruthRow>,
+    order: Vec<SeqRecord>,
+    reads: Vec<SeqRecord>,
+    order_path: Option<PathBuf>,
+    gt_path: Option<PathBuf>,
+    gt_is_fasta: bool,
+    gt_headers: Vec<String>,
+    gt_ab_col: Option<String>,
+    gt_heavy_col: Option<String>,
+    gt_light_col: Option<String>,
+    reads_files: Vec<PathBuf>,
+    reads_dir: Option<PathBuf>,
+    selected_file: Option<usize>,
+    has_overhangs: bool,
+    partial_sanger: bool,
+    gate1: Vec<Gate1Verdict>,
+    gate2: Vec<Gate2Verdict>,
+    sel_g1: Option<usize>,
+    sel_g2: Option<usize>,
+}
+
+impl ProjectState {
+    fn new(name: impl Into<String>) -> Self {
+        ProjectState {
+            name: name.into(),
+            heavy_vector: None,
+            ground_truth: Vec::new(),
+            order: Vec::new(),
+            reads: Vec::new(),
+            order_path: None,
+            gt_path: None,
+            gt_is_fasta: false,
+            gt_headers: Vec::new(),
+            gt_ab_col: None,
+            gt_heavy_col: None,
+            gt_light_col: None,
+            reads_files: Vec::new(),
+            reads_dir: None,
+            selected_file: None,
+            has_overhangs: true,
+            partial_sanger: false,
+            gate1: Vec::new(),
+            gate2: Vec::new(),
+            sel_g1: None,
+            sel_g2: None,
+        }
+    }
+}
+
 #[derive(Default)]
 struct App {
     library: Option<Library>,
     library_path: Option<PathBuf>,
     library_dirty: bool,
-    heavy_vector: Option<String>,
     selected_vector: Option<String>,
 
+    // Live working copy of the active project's fields (mirrors ProjectState).
+    heavy_vector: Option<String>,
     ground_truth: Vec<GroundTruthRow>,
     order: Vec<SeqRecord>,
     reads: Vec<SeqRecord>,
@@ -96,6 +152,10 @@ struct App {
     sel_g1: Option<usize>,
     sel_g2: Option<usize>,
 
+    // Saved project slots; `active_project` indexes the one mirrored above.
+    projects: Vec<ProjectState>,
+    active_project: usize,
+
     tab: Tab,
     status: String,
 }
@@ -105,6 +165,8 @@ impl App {
         let mut app = App {
             has_overhangs: true,
             status: "Load or build a library to begin. New here? Library ▸ New, then Add vector from GenBank.".into(),
+            projects: vec![ProjectState::new("Project 1")],
+            active_project: 0,
             ..Default::default()
         };
         // Dev/demo hook: `CLONODOC_DEMO=<order.fasta>` preloads the bundled library
@@ -120,6 +182,17 @@ impl App {
             app.sel_g1 = app.gate1.iter().position(|v| v.passed()).or(Some(0));
             app.tab = Tab::Check;
         }
+        // `CLONODOC_DEMO_READS=<reads.fasta>` additionally loads reads, runs Gate 2,
+        // and opens the Wetlab tab (for exercising alignment/coverage headlessly).
+        if let Ok(reads_path) = std::env::var("CLONODOC_DEMO_READS") {
+            if let Ok(recs) = fasta::read_path(Path::new(&reads_path)) {
+                app.reads = recs;
+                app.reads_files = vec![PathBuf::from(&reads_path)];
+            }
+            app.run_gate2();
+            app.sel_g2 = app.gate2.iter().position(|v| !v.passed()).or(Some(0));
+            app.tab = Tab::Wetlab;
+        }
         app
     }
 
@@ -130,6 +203,94 @@ impl App {
             self.heavy_vector.as_deref(),
             None,
         ))
+    }
+
+    // ---- Multi-project state ---------------------------------------------
+
+    /// Copy the live working fields back into the active project slot.
+    fn snapshot_active(&mut self) {
+        if let Some(slot) = self.projects.get_mut(self.active_project) {
+            let name = slot.name.clone();
+            *slot = ProjectState {
+                name,
+                heavy_vector: self.heavy_vector.clone(),
+                ground_truth: self.ground_truth.clone(),
+                order: self.order.clone(),
+                reads: self.reads.clone(),
+                order_path: self.order_path.clone(),
+                gt_path: self.gt_path.clone(),
+                gt_is_fasta: self.gt_is_fasta,
+                gt_headers: self.gt_headers.clone(),
+                gt_ab_col: self.gt_ab_col.clone(),
+                gt_heavy_col: self.gt_heavy_col.clone(),
+                gt_light_col: self.gt_light_col.clone(),
+                reads_files: self.reads_files.clone(),
+                reads_dir: self.reads_dir.clone(),
+                selected_file: self.selected_file,
+                has_overhangs: self.has_overhangs,
+                partial_sanger: self.partial_sanger,
+                gate1: self.gate1.clone(),
+                gate2: self.gate2.clone(),
+                sel_g1: self.sel_g1,
+                sel_g2: self.sel_g2,
+            };
+        }
+    }
+
+    /// Load the active project slot into the live working fields.
+    fn restore_active(&mut self) {
+        let Some(s) = self.projects.get(self.active_project).cloned() else {
+            return;
+        };
+        self.heavy_vector = s.heavy_vector;
+        self.ground_truth = s.ground_truth;
+        self.order = s.order;
+        self.reads = s.reads;
+        self.order_path = s.order_path;
+        self.gt_path = s.gt_path;
+        self.gt_is_fasta = s.gt_is_fasta;
+        self.gt_headers = s.gt_headers;
+        self.gt_ab_col = s.gt_ab_col;
+        self.gt_heavy_col = s.gt_heavy_col;
+        self.gt_light_col = s.gt_light_col;
+        self.reads_files = s.reads_files;
+        self.reads_dir = s.reads_dir;
+        self.selected_file = s.selected_file;
+        self.has_overhangs = s.has_overhangs;
+        self.partial_sanger = s.partial_sanger;
+        self.gate1 = s.gate1;
+        self.gate2 = s.gate2;
+        self.sel_g1 = s.sel_g1;
+        self.sel_g2 = s.sel_g2;
+    }
+
+    fn switch_project(&mut self, idx: usize) {
+        if idx == self.active_project || idx >= self.projects.len() {
+            return;
+        }
+        self.snapshot_active();
+        self.active_project = idx;
+        self.restore_active();
+        self.status = format!("Switched to \u{201c}{}\u{201d}", self.projects[idx].name);
+    }
+
+    fn new_project(&mut self) {
+        self.snapshot_active();
+        let name = format!("Project {}", self.projects.len() + 1);
+        self.projects.push(ProjectState::new(name.clone()));
+        self.active_project = self.projects.len() - 1;
+        self.restore_active();
+        // A fresh project defaults its heavy-vector choice to one in the (global) library.
+        self.heavy_vector = self
+            .library
+            .as_ref()
+            .and_then(|l| {
+                l.vectors
+                    .iter()
+                    .find(|v| v.chain_class == ChainClass::Heavy)
+            })
+            .map(|v| v.id.clone());
+        self.status = format!("Created \u{201c}{name}\u{201d}. Load its files on Project Files.");
     }
 
     // ---- Library ---------------------------------------------------------
@@ -701,17 +862,68 @@ impl App {
         }
 
         ui.add_space(14.0);
-        theme::section_label(ui, "Projects");
+        ui.horizontal(|ui| {
+            theme::section_label(ui, "Projects");
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                if ui
+                    .add(
+                        egui::Label::new(
+                            egui::RichText::new("+ New")
+                                .font(theme::ui_font(11.0))
+                                .color(color::ACCENT),
+                        )
+                        .sense(egui::Sense::click()),
+                    )
+                    .on_hover_text(
+                        "Create another project (its own ground truth / order / sequencing)",
+                    )
+                    .clicked()
+                {
+                    self.new_project();
+                }
+            });
+        });
         ui.add_space(4.0);
-        sidebar_input_row(
-            ui,
-            "Ground truth",
-            self.gt_path.is_some(),
-            self.ground_truth.len(),
-        );
-        sidebar_input_row(ui, "IDT order", self.order_path.is_some(), self.order.len());
-        let reads_loaded = self.reads_dir.is_some() || !self.reads_files.is_empty();
-        sidebar_input_row(ui, "Sequencing", reads_loaded, self.reads.len());
+
+        // Project switcher: one selectable row per project, active highlighted.
+        let active = self.active_project;
+        let names: Vec<String> = self.projects.iter().map(|p| p.name.clone()).collect();
+        let mut switch_to = None;
+        for (i, name) in names.iter().enumerate() {
+            let is_active = i == active;
+            let resp = ui.horizontal(|ui| {
+                let glyph = if is_active { "▸" } else { "  " };
+                let txt = egui::RichText::new(format!("{glyph} {name}"))
+                    .font(theme::ui_font(13.0))
+                    .color(if is_active {
+                        color::ACCENT
+                    } else {
+                        color::TEXT_SECONDARY
+                    });
+                ui.add(egui::Label::new(txt).sense(egui::Sense::click()))
+                    .clicked()
+            });
+            if resp.inner && !is_active {
+                switch_to = Some(i);
+            }
+        }
+        if let Some(i) = switch_to {
+            self.switch_project(i);
+        }
+
+        // The active project's loaded inputs.
+        ui.add_space(6.0);
+        ui.indent("active_inputs", |ui| {
+            sidebar_input_row(
+                ui,
+                "Ground truth",
+                self.gt_path.is_some(),
+                self.ground_truth.len(),
+            );
+            sidebar_input_row(ui, "IDT order", self.order_path.is_some(), self.order.len());
+            let reads_loaded = self.reads_dir.is_some() || !self.reads_files.is_empty();
+            sidebar_input_row(ui, "Sequencing", reads_loaded, self.reads.len());
+        });
 
         ui.add_space(10.0);
         ui.separator();
@@ -960,13 +1172,21 @@ impl App {
     // ---- Screen 2: Project Files ----------------------------------------
 
     fn files_screen(&mut self, ui: &mut egui::Ui) {
+        let proj_name = self
+            .projects
+            .get(self.active_project)
+            .map(|p| p.name.clone())
+            .unwrap_or_default();
         header(
             ui,
             "Project Files",
-            "Load the sequence files for this cloning campaign",
+            &format!("Projects / {proj_name} · load this campaign's sequence files"),
             |ui| {
                 if theme::primary_button(ui, "Load order…").clicked() {
                     self.load_order_dialog();
+                }
+                if theme::ghost_button(ui, "+ New project").clicked() {
+                    self.new_project();
                 }
             },
         );
@@ -1607,6 +1827,144 @@ impl App {
                 );
             });
         }
+
+        // Alignment card — observed ORF vs expected protein, windowed around the
+        // first mutation (or the V-region start), mismatches highlighted red.
+        if let (Some(obs), Some(exp)) = (&v.aligned_observed, &v.aligned_expected) {
+            ui.add_space(12.0);
+            theme::card(ui, |ui| {
+                let leader = v.leader_aa_len.unwrap_or(0);
+                // Center the window on the first mutation if present, else the V start.
+                let focus = v
+                    .mutations
+                    .first()
+                    .map(|m| leader + m.position_aa)
+                    .unwrap_or(leader + 1);
+                let half = 13usize;
+                let start = focus.saturating_sub(half);
+                let end = (focus + half).min(exp.chars().count());
+                theme::section_label(ui, "Protein alignment · expected vs observed");
+                ui.label(
+                    egui::RichText::new(format!("aa {}–{}", start + 1, end))
+                        .font(theme::mono(11.0))
+                        .color(color::TEXT_MUTED),
+                );
+                ui.add_space(6.0);
+                let slice = |s: &str| s.chars().skip(start).take(end - start).collect::<String>();
+                viz::alignment_rows(
+                    ui,
+                    "Expected",
+                    &slice(exp),
+                    "Observed",
+                    &slice(obs),
+                    13.0,
+                    14.0,
+                );
+            });
+        }
+
+        // Coverage card — per-base read depth across the expected construct, from
+        // all reads of this antibody (most informative for partial-Sanger sets).
+        if let Some((depths, total_bp, feats, mean)) = self.coverage_for(v) {
+            ui.add_space(12.0);
+            theme::card(ui, |ui| {
+                theme::section_label(ui, "Read coverage across construct");
+                ui.label(
+                    egui::RichText::new(format!("mean depth {mean:.0}×"))
+                        .font(theme::mono(11.0))
+                        .color(color::TEXT_MUTED),
+                );
+                ui.add_space(6.0);
+                viz::coverage_chart(ui, &depths, &feats, total_bp, 120.0);
+            });
+        }
+    }
+
+    /// Compute a coverage profile for the antibody behind a Gate-2 verdict: build
+    /// its expected assembled reference, then aggregate every loaded read that
+    /// parses to the same `ab_id`. Returns (depths, total_bp, feature arcs, mean).
+    fn coverage_for(&self, v: &Gate2Verdict) -> Option<(Vec<f32>, usize, Vec<FeatureArc>, f64)> {
+        let lib = self.library.as_ref()?;
+        let project = self.project()?;
+        let set = lib.overhang_set(&project.overhang_set)?;
+        let profile = lib
+            .naming_profiles
+            .first()
+            .cloned()
+            .unwrap_or_else(naming::default_profile);
+
+        // Determine the construct's locus/vector + expected core from the order.
+        let class = match v.chain_class.as_str() {
+            "heavy" => ChainClass::Heavy,
+            "kappa" => ChainClass::Kappa,
+            "lambda" => ChainClass::Lambda,
+            _ => ChainClass::Light,
+        };
+        let cores = workflow::order_cores(&self.order, lib, &project, self.has_overhangs);
+        let key_class = |loc: Locus| loc.chain_class();
+        // Find the order core for this antibody (try the parsed class, then light loci).
+        let mut core_locus = None;
+        for loc in [Locus::Igh, Locus::Igk, Locus::Igl] {
+            if cores.contains_key(&(v.ab_id.to_ascii_uppercase(), key_class(loc))) {
+                if class == ChainClass::Heavy && loc != Locus::Igh {
+                    continue;
+                }
+                core_locus = Some(loc);
+                break;
+            }
+        }
+        let locus = core_locus?;
+        let core = cores.get(&(v.ab_id.to_ascii_uppercase(), locus.chain_class()))?;
+        let vector = project
+            .vector_for(locus.chain_class())
+            .and_then(|id| lib.vector(id))?;
+        let expected = assemble::assemble(vector, core);
+        let _ = set;
+
+        // Gather all reads belonging to this antibody.
+        let reads: Vec<String> = self
+            .reads
+            .iter()
+            .filter(|r| {
+                naming::parse_name(&r.id, &profile)
+                    .ab_id
+                    .eq_ignore_ascii_case(&v.ab_id)
+            })
+            .map(|r| r.sequence.clone())
+            .collect();
+        if reads.is_empty() {
+            return None;
+        }
+        let cov = clonodoc_core::coverage::coverage_profile(&expected, &reads);
+        if cov.is_empty() {
+            return None;
+        }
+        let depths: Vec<f32> = cov.depth.iter().map(|&d| d as f32).collect();
+        // Feature arcs (insert + shifted vector features) for the track beneath.
+        let oh5 = vector.insertion_site.oh5_end;
+        let insert_bp = core.len();
+        let mut feats = vec![FeatureArc {
+            name: "insert".into(),
+            start: oh5,
+            end: oh5 + insert_bp,
+            color: color::ACCENT,
+        }];
+        for f in vector_feature_arcs(vector) {
+            let shift = |x: usize| {
+                if x >= vector.insertion_site.oh3_start {
+                    x + insert_bp
+                } else {
+                    x
+                }
+            };
+            feats.push(FeatureArc {
+                name: f.name,
+                start: shift(f.start),
+                end: shift(f.end),
+                color: f.color,
+            });
+        }
+        Some((depths, expected.len(), feats, cov.mean()))
     }
 }
 

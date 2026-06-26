@@ -174,10 +174,7 @@ pub fn sequence_row(ui: &mut egui::Ui, seq: &str, cell: f32, size: f32, divider_
 }
 
 /// Two stacked sequence rows (expected ref over read) with mismatches boxed red.
-///
-/// Scaffolding for the Wetlab alignment card — wired once `gate2` surfaces the
-/// aligned `expected`/`observed` strings (a small `clonodoc-core` addition).
-#[allow(dead_code)]
+/// Protein (amino-acid) text — residues render in a neutral color, mismatches red.
 pub fn alignment_rows(
     ui: &mut egui::Ui,
     ref_label: &str,
@@ -225,7 +222,7 @@ pub fn alignment_rows(
                         egui::Align2::CENTER_CENTER,
                         c.to_string(),
                         theme::mono(size),
-                        theme::base_color(c),
+                        color::TEXT_SECONDARY,
                     );
                 }
                 if let Some(c) = qc {
@@ -244,7 +241,7 @@ pub fn alignment_rows(
                     let col = if mismatch {
                         color::RED
                     } else {
-                        theme::base_color(c)
+                        color::TEXT_SECONDARY
                     };
                     painter.text(
                         Pos2::new(x, row_y(1)),
@@ -258,11 +255,7 @@ pub fn alignment_rows(
         });
 }
 
-/// A filled coverage-depth area chart with an optional feature bar beneath.
-///
-/// Scaffolding for the Wetlab coverage card — wired once `gate2` retains
-/// per-base read depth.
-#[allow(dead_code)]
+/// A filled coverage-depth area chart with a feature bar beneath.
 pub fn coverage_chart(
     ui: &mut egui::Ui,
     depths: &[f32],
@@ -282,25 +275,24 @@ pub fn coverage_chart(
 
     if !depths.is_empty() {
         let max = depths.iter().cloned().fold(1.0_f32, f32::max);
+        // Downsample to one column per ~2px (max depth per bucket) and draw a
+        // filled bar per column — correct for any (non-convex) coverage profile,
+        // unlike a single convex polygon.
+        let cols = (chart.width() / 2.0).clamp(1.0, 600.0) as usize;
         let n = depths.len();
-        let mut poly: Vec<Pos2> = Vec::with_capacity(n + 2);
-        poly.push(Pos2::new(chart.left(), chart.bottom()));
-        for (i, d) in depths.iter().enumerate() {
-            let x = chart.left() + (i as f32 / (n - 1).max(1) as f32) * chart.width();
-            let y = chart.bottom() - (d / max) * (chart.height() - 4.0);
-            poly.push(Pos2::new(x, y));
+        let col_w = chart.width() / cols as f32;
+        for c in 0..cols {
+            let lo = c * n / cols;
+            let hi = ((c + 1) * n / cols).max(lo + 1).min(n);
+            let bucket_max = depths[lo..hi].iter().cloned().fold(0.0_f32, f32::max);
+            let h = (bucket_max / max) * (chart.height() - 4.0);
+            let x0 = chart.left() + c as f32 * col_w;
+            let bar = Rect::from_min_max(
+                Pos2::new(x0, chart.bottom() - h),
+                Pos2::new(x0 + col_w + 0.5, chart.bottom()),
+            );
+            painter.rect_filled(bar, 0.0, color::ACCENT.linear_multiply(0.35));
         }
-        poly.push(Pos2::new(chart.right(), chart.bottom()));
-        painter.add(egui::Shape::convex_polygon(
-            poly.clone(),
-            color::ACCENT.linear_multiply(0.25),
-            Stroke::NONE,
-        ));
-        // top outline
-        painter.add(egui::Shape::line(
-            poly[1..poly.len() - 1].to_vec(),
-            Stroke::new(1.5, color::ACCENT),
-        ));
     }
 
     // feature bar beneath
@@ -321,69 +313,8 @@ pub fn coverage_chart(
     }
 }
 
-/// A synthetic chromatogram: one bell curve per base (quadratic bezier), colored
-/// by base, with a base-letter row beneath and an optional highlighted position.
-///
-/// Scaffolding for the Wetlab chromatogram card — wired once AB1 traces are
-/// retained (v1 intentionally parses base calls only, not trace peaks).
-#[allow(dead_code)]
-pub fn chromatogram(ui: &mut egui::Ui, bases: &str, highlight: Option<usize>, height: f32) {
-    let chars: Vec<char> = bases.chars().collect();
-    let cell = 30.0;
-    let width = (chars.len() as f32 * cell).max(ui.available_width());
-    egui::ScrollArea::horizontal()
-        .id_salt(("chroma", bases.len()))
-        .show(ui, |ui| {
-            let (rect, _) = ui.allocate_exact_size(Vec2::new(width, height), Sense::hover());
-            let painter = ui.painter_at(rect);
-            let baseline = rect.bottom() - 22.0;
-            painter.line_segment(
-                [
-                    Pos2::new(rect.left(), baseline),
-                    Pos2::new(rect.right(), baseline),
-                ],
-                Stroke::new(1.0, color::BORDER_CARD),
-            );
-            for (i, ch) in chars.iter().enumerate() {
-                let cx = rect.left() + i as f32 * cell + cell / 2.0;
-                if highlight == Some(i) {
-                    let hl = Rect::from_min_max(
-                        Pos2::new(cx - cell / 2.0, rect.top()),
-                        Pos2::new(cx + cell / 2.0, baseline),
-                    );
-                    painter.rect_filled(
-                        hl,
-                        CornerRadius::same(4),
-                        color::GOLD.linear_multiply(0.12),
-                    );
-                }
-                let col = theme::base_color(*ch);
-                // bell: quadratic from (cx-14, baseline) control (cx, baseline-peak) to (cx+14, baseline)
-                let peak = height - 40.0;
-                let p0 = Pos2::new(cx - 14.0, baseline);
-                let ctrl = Pos2::new(cx, baseline - peak);
-                let p2 = Pos2::new(cx + 14.0, baseline);
-                let mut pts = Vec::with_capacity(17);
-                for s in 0..=16 {
-                    let t = s as f32 / 16.0;
-                    let mt = 1.0 - t;
-                    let p = Pos2::new(
-                        mt * mt * p0.x + 2.0 * mt * t * ctrl.x + t * t * p2.x,
-                        mt * mt * p0.y + 2.0 * mt * t * ctrl.y + t * t * p2.y,
-                    );
-                    pts.push(p);
-                }
-                painter.add(egui::Shape::line(pts, Stroke::new(2.0, col)));
-                painter.text(
-                    Pos2::new(cx, baseline + 11.0),
-                    egui::Align2::CENTER_CENTER,
-                    ch.to_string(),
-                    theme::mono(13.0),
-                    col,
-                );
-            }
-        });
-}
+// (Chromatogram view intentionally omitted — AB1 trace peaks are not retained,
+// so any chromatogram would be synthetic. Base calls only, per the v1 design.)
 
 /// Format an integer with thousands separators (e.g. 2686 -> "2,686").
 pub fn group_thousands(n: usize) -> String {
