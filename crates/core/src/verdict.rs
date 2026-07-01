@@ -167,6 +167,17 @@ pub struct Gate2Verdict {
     pub reads_through: Option<bool>,
     /// If a sample swap is suspected, the better-matching panel member.
     pub suspected_identity: Option<String>,
+    /// The gapped protein alignment (observed ORF vs expected), when computed —
+    /// drives the Wetlab alignment view. `aligned_observed`/`aligned_expected`
+    /// are equal-length strings using `-` for gaps.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub aligned_observed: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub aligned_expected: Option<String>,
+    /// Residue index (0-based, into the aligned strings) of the leader→V boundary,
+    /// so the UI can label variable-region positions.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub leader_aa_len: Option<usize>,
 }
 
 impl Gate2Verdict {

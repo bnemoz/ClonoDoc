@@ -134,6 +134,9 @@ impl<'a> Gate2Context<'a> {
             premature_stop_aa: None,
             reads_through: None,
             suspected_identity: None,
+            aligned_observed: None,
+            aligned_expected: None,
+            leader_aa_len: None,
         };
 
         // Resolve locus/vector. For light, detect κ/λ from the read.
@@ -279,6 +282,10 @@ impl<'a> Gate2Context<'a> {
 
         // Align observed vs expected.
         let al = align::align_protein(&observed_aa, &expected_aa, &self.library.alignment);
+        // Surface the gapped alignment for the Wetlab alignment view.
+        v.aligned_observed = Some(al.aligned_a.clone());
+        v.aligned_expected = Some(al.aligned_b.clone());
+        v.leader_aa_len = Some(leader_aa.len());
 
         if !observed_reads_through {
             // No read-through → junction frameshift (premature stop).

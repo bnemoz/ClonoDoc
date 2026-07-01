@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; font-family:'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing:antialiased; background:#0E1217; }
+  ::-webkit-scrollbar { width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb { background:#2a333e; border-radius:6px; }
+  .seqrow span { font-variant-ligatures:none; }
+  button { white-space:nowrap; }
+</style>
+</helmet>
+
+<div style="height:100vh; display:flex; flex-direction:column; background:#0E1217;">
+  <div style="height:3px; background:linear-gradient(90deg,#FFC951,#EF634F,#A54472,#193D66,#5BC2D2); flex-shrink:0;"></div>
+  <div style="flex:1; display:flex; min-height:0;">
+
+    <!-- ===== SIDEBAR ===== -->
+    <div style="width:262px; background:#11161c; border-right:1px solid #1d242c; display:flex; flex-direction:column; flex-shrink:0;">
+      <div style="padding:18px 18px 14px; display:flex; align-items:center; gap:11px;">
+        <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
+          <circle cx="10" cy="9" r="6.6" stroke="var(--accent,#5BC2D2)" stroke-width="2.4"/>
+          <circle cx="20" cy="9" r="6.6" stroke="#FFC951" stroke-width="2.4"/>
+        </svg>
+        <div>
+          <div style="font-size:14.5px; font-weight:600; color:#E7EDF3; letter-spacing:-0.01em;">Helix</div>
+          <div style="font-size:10.5px; color:#5e6b78; letter-spacing:0.04em;">CLONING WORKBENCH</div>
+        </div>
+      </div>
+      <div style="padding:0 14px 12px;">
+        <div style="display:flex; align-items:center; gap:8px; background:#0E1217; border:1px solid #232b34; border-radius:9px; padding:8px 10px;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#5e6b78" stroke-width="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
+          <span style="font-size:12.5px; color:#5e6b78;">Search sequences…</span>
+        </div>
+      </div>
+      <div style="flex:1; overflow:auto; padding:4px 10px 18px;">
+        <div style="font-size:10.5px; letter-spacing:0.08em; color:#566270; font-weight:600; padding:10px 8px 6px;">REFERENCE LIBRARY</div>
+        <div style="display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px; color:#aeb9c4; font-size:13px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#5e6b78" stroke-width="1.6"><path d="M4 2l4 4-4 4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#7e8c99" stroke-width="1.4"><path d="M2 4.5h4l1.2 1.5H14v6.5a.8.8 0 0 1-.8.8H2.8A.8.8 0 0 1 2 12.5z"/></svg>Vectors
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px; color:#aeb9c4; font-size:13px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#5e6b78" stroke-width="1.6"><path d="M4 2l4 4-4 4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#7e8c99" stroke-width="1.4"><path d="M2 4.5h4l1.2 1.5H14v6.5a.8.8 0 0 1-.8.8H2.8A.8.8 0 0 1 2 12.5z"/></svg>Enzymes
+        </div>
+        <div style="font-size:10.5px; letter-spacing:0.08em; color:#566270; font-weight:600; padding:16px 8px 6px;">PROJECTS</div>
+        <div style="display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:7px; color:#cdd6df; font-size:13px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#7e8c99" stroke-width="1.6"><path d="M2 4l4 4 4-4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#FFC951" stroke-width="1.4"><path d="M2 4.5h4l1.2 1.5H14v6.5a.8.8 0 0 1-.8.8H2.8A.8.8 0 0 1 2 12.5z"/></svg>GFP-reporter
+        </div>
+        <div style="margin-left:14px; padding-left:10px; border-left:1px solid #232b34;">
+          <div style="display:flex; align-items:center; gap:9px; padding:7px 9px; margin:2px 0; border-radius:7px; font-size:12.5px; color:var(--accent,#5BC2D2); background:#13202a; border-left:2px solid var(--accent,#5BC2D2);">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2h6l2.5 2.5V14H4z"/><path d="M10 2v3h2.5"/></svg>pUC19-EGFP.gb
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; padding:7px 9px; margin:2px 0; border-radius:7px; font-size:12.5px; color:#8b98a5;">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#5e6b78" stroke-width="1.4"><path d="M4 2h6l2.5 2.5V14H4z"/><path d="M10 2v3h2.5"/></svg>insert_EGFP.fasta
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; padding:7px 8px; margin-top:2px; border-radius:7px; color:#aeb9c4; font-size:13px;">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#5e6b78" stroke-width="1.6"><path d="M4 2l4 4-4 4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#7e8c99" stroke-width="1.4"><path d="M2 4.5h4l1.2 1.5H14v6.5a.8.8 0 0 1-.8.8H2.8A.8.8 0 0 1 2 12.5z"/></svg>CRISPR-library
+        </div>
+      </div>
+      <div style="padding:14px 16px; border-top:1px solid #1d242c; display:flex; align-items:center; gap:10px;">
+        <div style="width:28px; height:28px; border-radius:50%; background:#263a77; color:#bcc8e6; font-size:11px; font-weight:600; display:flex; align-items:center; justify-content:center;">AR</div>
+        <div style="font-size:12px; color:#8b98a5;">A. Researcher</div>
+      </div>
+    </div>
+
+    <!-- ===== MAIN ===== -->
+    <div style="flex:1; display:flex; flex-direction:column; min-width:0;">
+      <!-- TAB BAR -->
+      <div style="display:flex; align-items:center; gap:2px; padding:0 22px; border-bottom:1px solid #1d242c; background:#0E1217; flex-shrink:0;">
+        <div onClick="{{ goLibrary }}" style="display:flex; align-items:center; gap:8px; padding:16px 14px; font-size:13px; cursor:pointer; color:{{ tLib.col }}; font-weight:{{ tLib.wt }}; border-bottom:{{ tLib.bd }}; margin-bottom:-1px;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5"/><path d="M2.5 6h11"/></svg>Reference Library
+        </div>
+        <div onClick="{{ goFiles }}" style="display:flex; align-items:center; gap:8px; padding:16px 14px; font-size:13px; cursor:pointer; color:{{ tFiles.col }}; font-weight:{{ tFiles.wt }}; border-bottom:{{ tFiles.bd }}; margin-bottom:-1px;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4.5h4l1.2 1.5H14v6.5a.8.8 0 0 1-.8.8H2.8A.8.8 0 0 1 2 12.5z"/></svg>Project Files
+        </div>
+        <div onClick="{{ goCheck }}" style="display:flex; align-items:center; gap:8px; padding:16px 14px; font-size:13px; cursor:pointer; color:{{ tCheck.col }}; font-weight:{{ tCheck.wt }}; border-bottom:{{ tCheck.bd }}; margin-bottom:-1px;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2c0 3 6 3 6 6s-6 3-6 6"/><path d="M11 2c0 3-6 3-6 6s6 3 6 6"/></svg>In-silico Check
+        </div>
+        <div onClick="{{ goWet }}" style="display:flex; align-items:center; gap:8px; padding:16px 14px; font-size:13px; cursor:pointer; color:{{ tWet.col }}; font-weight:{{ tWet.wt }}; border-bottom:{{ tWet.bd }}; margin-bottom:-1px;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6.5 2v4l-3.2 6.2A.9.9 0 0 0 4.1 13.5h7.8a.9.9 0 0 0 .8-1.3L9.5 6V2"/><path d="M5.5 2h5"/></svg>Wetlab Verify
+        </div>
+      </div>
+
+      <div style="flex:1; overflow:auto; position:relative;">
+
+        <!-- ============ SCREEN 1: REFERENCE LIBRARY ============ -->
+        <sc-if value="{{ isLib }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex; align-items:center; padding:22px 26px 18px; border-bottom:1px solid #161d24;">
+            <div>
+              <h1 style="margin:0; font-size:21px; font-weight:600; color:#E7EDF3; letter-spacing:-0.015em;">Reference Library</h1>
+              <div style="font-size:12.5px; color:#7e8c99; margin-top:4px;">Curated backbones, enzymes & primers · reused across projects</div>
+            </div>
+            <div style="margin-left:auto; display:flex; gap:10px;">
+              <button style="font-family:inherit; font-size:13px; color:#cdd6df; background:transparent; border:1px solid #2a333e; border-radius:9px; padding:9px 16px; cursor:pointer;">Import…</button>
+              <button style="font-family:inherit; font-size:13px; font-weight:600; color:#0E1217; background:var(--accent,#5BC2D2); border:none; border-radius:9px; padding:9px 18px; cursor:pointer;">+ Add reference</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:20px; padding:20px 26px;">
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                <span style="font-size:12px; font-weight:600; color:#0E1217; background:var(--accent,#5BC2D2); padding:6px 13px; border-radius:18px;">All</span>
+                <span style="font-size:12px; color:#aeb9c4; background:#161d24; padding:6px 13px; border-radius:18px;">Vectors</span>
+                <span style="font-size:12px; color:#aeb9c4; background:#161d24; padding:6px 13px; border-radius:18px;">Enzymes</span>
+                <span style="font-size:12px; color:#aeb9c4; background:#161d24; padding:6px 13px; border-radius:18px;">Primers</span>
+                <span style="font-size:12px; color:#aeb9c4; background:#161d24; padding:6px 13px; border-radius:18px;">Features</span>
+                <span style="margin-left:auto; font-size:11.5px; color:#5e6b78;">9 references</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <sc-for list="{{ refItems }}" as="r" hint-placeholder-count="9">
+                  <div style="display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:11px; background:{{ r.bg }}; border:{{ r.bd }}; cursor:pointer;">
+                    <span style="width:10px; height:10px; border-radius:3px; flex-shrink:0; background:{{ r.dot }};"></span>
+                    <div style="width:150px; flex-shrink:0;">
+                      <div style="font-size:14px; color:#E7EDF3; font-weight:500;">{{ r.name }}</div>
+                      <div style="font-size:11px; color:#5e6b78; letter-spacing:0.04em; margin-top:2px;">{{ r.type }}</div>
+                    </div>
+                    <div style="flex:1; font-size:12.5px; color:#9aa7b4; font-family:'IBM Plex Mono',monospace; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ r.meta }}</div>
+                    <div style="font-size:11.5px; color:#7e8c99; white-space:nowrap;">{{ r.tags }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- detail panel -->
+            <div style="width:316px; flex-shrink:0; background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px; align-self:flex-start;">
+              <div style="font-size:11px; color:#566270; letter-spacing:0.05em; margin-bottom:2px;">VECTOR · SELECTED</div>
+              <div style="display:flex; align-items:baseline; gap:10px;">
+                <h2 style="margin:0; font-size:18px; color:#E7EDF3; font-weight:600;">pUC19</h2>
+                <span style="font-size:12px; color:#7e8c99; font-family:'IBM Plex Mono',monospace;">2,686 bp</span>
+              </div>
+              <svg width="240" height="200" viewBox="0 0 360 320" style="display:block; margin:14px auto 6px;">
+                <circle cx="180" cy="160" r="118" fill="none" stroke="#222b34" stroke-width="2"/>
+                <path d="M232 53 A118 118 0 0 1 250 250" fill="none" stroke="#FFC951" stroke-width="12" stroke-linecap="round"/>
+                <path d="M232 268 A118 118 0 0 1 96 263" fill="none" stroke="#8291C6" stroke-width="12" stroke-linecap="round"/>
+                <path d="M70 240 A118 118 0 0 1 78 70" fill="none" stroke="#6EB744" stroke-width="12" stroke-linecap="round"/>
+                <text x="180" y="156" text-anchor="middle" fill="#E7EDF3" font-size="15" font-weight="600" font-family="IBM Plex Sans">pUC19</text>
+                <text x="180" y="176" text-anchor="middle" fill="#7e8c99" font-size="11" font-family="IBM Plex Mono">2,686 bp</text>
+              </svg>
+              <div style="display:flex; flex-direction:column; gap:7px; margin:10px 0 16px;">
+                <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#FFC951;"></span>AmpR<span style="margin-left:auto;color:#5e6b78;font-family:'IBM Plex Mono',monospace;">861 bp</span></div>
+                <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#8291C6;"></span>ori<span style="margin-left:auto;color:#5e6b78;font-family:'IBM Plex Mono',monospace;">589 bp</span></div>
+                <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#6EB744;"></span>lacZα + MCS<span style="margin-left:auto;color:#5e6b78;font-family:'IBM Plex Mono',monospace;">access</span></div>
+              </div>
+              <div style="font-size:11.5px; color:#7e8c99; padding:10px 0; border-top:1px solid #1f272f;">Source · Addgene · GenBank L09137</div>
+              <button style="width:100%; font-family:inherit; font-size:13px; font-weight:600; color:#0E1217; background:var(--accent,#5BC2D2); border:none; border-radius:9px; padding:11px; cursor:pointer; margin-top:6px;">Use in project →</button>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ SCREEN 2: PROJECT FILES ============ -->
+        <sc-if value="{{ isFiles }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex; align-items:center; padding:22px 26px 18px; border-bottom:1px solid #161d24;">
+            <div>
+              <div style="font-size:11.5px; color:#566270; margin-bottom:5px;">Projects / GFP-reporter</div>
+              <h1 style="margin:0; font-size:21px; font-weight:600; color:#E7EDF3; letter-spacing:-0.015em;">Project Files</h1>
+            </div>
+            <div style="margin-left:auto; display:flex; gap:10px;">
+              <button style="font-family:inherit; font-size:13px; color:#cdd6df; background:transparent; border:1px solid #2a333e; border-radius:9px; padding:9px 16px; cursor:pointer;">New project</button>
+              <button style="font-family:inherit; font-size:13px; font-weight:600; color:#0E1217; background:var(--accent,#5BC2D2); border:none; border-radius:9px; padding:9px 18px; cursor:pointer;">Load files…</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:20px; padding:20px 26px;">
+            <div style="flex:1; min-width:0;">
+              <div style="border:1.5px dashed #2e3a45; border-radius:13px; padding:26px; text-align:center; background:#10151b; margin-bottom:18px;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5e6b78" stroke-width="1.6" style="margin-bottom:8px;"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <div style="font-size:13.5px; color:#aeb9c4;">Drop sequence files here — or <span style="color:var(--accent,#5BC2D2); font-weight:500;">browse</span></div>
+                <div style="font-size:11.5px; color:#5e6b78; margin-top:5px; font-family:'IBM Plex Mono',monospace;">.gb · .gbk · .fasta · .dna · .seq · .ape</div>
+              </div>
+              <div style="font-size:12.5px; font-weight:600; color:#E7EDF3; margin-bottom:12px;">Loaded files <span style="color:#5e6b78; font-weight:400;">· 4</span></div>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <sc-for list="{{ projFiles }}" as="f" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:14px; padding:13px 16px; border-radius:11px; background:#11161c; border:1px solid #1f272f;">
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="{{ f.dot }}" stroke-width="1.4" style="flex-shrink:0;"><path d="M4 2h6l2.5 2.5V14H4z"/><path d="M10 2v3h2.5"/></svg>
+                    <div style="width:190px; flex-shrink:0; font-size:13.5px; color:#E7EDF3; font-weight:500; font-family:'IBM Plex Mono',monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ f.name }}</div>
+                    <span style="font-size:11px; color:#9aa7b4; background:#161d24; padding:4px 10px; border-radius:6px;">{{ f.fmt }}</span>
+                    <span style="font-size:12px; color:#7e8c99; font-family:'IBM Plex Mono',monospace; width:70px;">{{ f.len }}</span>
+                    <span style="margin-left:auto; display:flex; align-items:center; gap:7px; font-size:12px; color:#cdd6df; background:{{ f.roleBg }}; border:1px solid {{ f.roleBd }}; padding:5px 12px; border-radius:7px;">{{ f.role }}<svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4l4 4 4-4"/></svg></span>
+                    <span style="color:#57C98A; font-size:14px;">✓</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- preview -->
+            <div style="width:316px; flex-shrink:0; background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px; align-self:flex-start;">
+              <div style="font-size:11px; color:#566270; letter-spacing:0.05em; margin-bottom:6px;">PREVIEW</div>
+              <div style="font-size:14px; color:#E7EDF3; font-weight:500; font-family:'IBM Plex Mono',monospace;">pUC19-backbone.gb</div>
+              <div style="font-size:12px; color:#7e8c99; margin:3px 0 16px;">GenBank · 2,686 bp · circular</div>
+              <div style="height:14px; border-radius:5px; display:flex; overflow:hidden; margin-bottom:6px;">
+                <div style="flex:3; background:#FFC951;"></div>
+                <div style="flex:2; background:#8291C6;"></div>
+                <div style="flex:2; background:#6EB744;"></div>
+                <div style="flex:1; background:#2a333e;"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:#5e6b78; font-family:'IBM Plex Mono',monospace; margin-bottom:16px;"><span>1</span><span>2,686</span></div>
+              <div style="font-size:11px; color:#566270; margin-bottom:6px;">First bases</div>
+              <div class="seqrow" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.7; word-break:break-all; color:#9aa7b4; background:#0E1217; border:1px solid #1f272f; border-radius:8px; padding:11px;">
+                <sc-for list="{{ preview }}" as="x" hint-placeholder-count="40"><span style="color:{{ x.c }};">{{ x.b }}</span></sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ SCREEN 3: IN-SILICO CHECK ============ -->
+        <sc-if value="{{ isCheck }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex; align-items:center; padding:20px 26px 18px; border-bottom:1px solid #161d24;">
+            <div style="min-width:0;">
+              <div style="font-size:11.5px; color:#566270; margin-bottom:5px;">Projects / GFP-reporter / pUC19-EGFP.gb</div>
+              <div style="display:flex; align-items:baseline; gap:12px;">
+                <h1 style="margin:0; font-size:21px; font-weight:600; color:#E7EDF3; letter-spacing:-0.015em;">pUC19–EGFP</h1>
+                <span style="font-size:12px; color:#7e8c99; font-family:'IBM Plex Mono',monospace;">4,238 bp · circular · Gibson</span>
+              </div>
+            </div>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:14px;">
+              <div style="display:flex; align-items:center; gap:7px; background:rgba(87,201,138,0.10); border:1px solid rgba(87,201,138,0.25); padding:6px 12px; border-radius:20px;"><span style="width:7px; height:7px; border-radius:50%; background:#57C98A;"></span><span style="font-size:11.5px; color:#57C98A; font-weight:500;">5 / 6 passed</span></div>
+              <button style="font-family:inherit; font-size:13px; color:#cdd6df; background:transparent; border:1px solid #2a333e; border-radius:9px; padding:9px 16px; cursor:pointer;">Export .gb</button>
+              <button style="font-family:inherit; font-size:13px; font-weight:600; color:#0E1217; background:var(--accent,#5BC2D2); border:none; border-radius:9px; padding:9px 18px; cursor:pointer;">Order insert →</button>
+            </div>
+          </div>
+          <div style="padding:24px 26px;">
+            <div style="display:grid; grid-template-columns:392px 1fr; gap:20px; margin-bottom:20px;">
+              <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px;">
+                <div style="font-size:12.5px; color:#8b98a5; font-weight:500; margin-bottom:6px;">Simulated construct map</div>
+                <svg width="100%" height="320" viewBox="0 0 360 360" style="display:block;">
+                  <circle cx="180" cy="180" r="130" fill="none" stroke="#222b34" stroke-width="2"/>
+                  <path d="M224.5 57.8 A130 130 0 0 1 263.6 279.6" fill="none" stroke="var(--accent,#5BC2D2)" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M245 292.6 A130 130 0 0 1 157.4 308" fill="none" stroke="#6EB744" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M135.5 302.2 A130 130 0 0 1 52 157.4" fill="none" stroke="#FFC951" stroke-width="13" stroke-linecap="round"/>
+                  <path d="M67.4 115 A130 130 0 0 1 157.4 52" fill="none" stroke="#8291C6" stroke-width="13" stroke-linecap="round"/>
+                  <line x1="221.7" y1="65.3" x2="234" y2="34" stroke="#7e8c99" stroke-width="1.3"/>
+                  <text x="238" y="29" fill="#aeb9c4" font-size="11" font-family="IBM Plex Mono">EcoRI</text>
+                  <line x1="258.4" y1="273.5" x2="279" y2="299" stroke="#7e8c99" stroke-width="1.3"/>
+                  <text x="282" y="307" fill="#aeb9c4" font-size="11" font-family="IBM Plex Mono">BamHI</text>
+                  <text x="180" y="172" text-anchor="middle" fill="#E7EDF3" font-size="17" font-weight="600" font-family="IBM Plex Sans">pUC19–EGFP</text>
+                  <text x="180" y="194" text-anchor="middle" fill="#7e8c99" font-size="12" font-family="IBM Plex Mono">4,238 bp</text>
+                </svg>
+                <div style="display:flex; flex-wrap:wrap; gap:10px 18px; justify-content:center; margin-top:8px;">
+                  <div style="display:flex; align-items:center; gap:7px; font-size:12px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:var(--accent,#5BC2D2);"></span>EGFP insert <span style="color:#5e6b78;">717 bp</span></div>
+                  <div style="display:flex; align-items:center; gap:7px; font-size:12px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#6EB744;"></span>lacZα</div>
+                  <div style="display:flex; align-items:center; gap:7px; font-size:12px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#FFC951;"></span>AmpR</div>
+                  <div style="display:flex; align-items:center; gap:7px; font-size:12px; color:#aeb9c4;"><span style="width:9px;height:9px;border-radius:2px;background:#8291C6;"></span>ori</div>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:14px; min-width:0;">
+                <div style="display:flex; align-items:center; justify-content:space-between;"><div style="font-size:13px; color:#E7EDF3; font-weight:600;">Verification checks</div><div style="font-size:11.5px; color:#7e8c99;">in-silico assembly · Gibson</div></div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <sc-for list="{{ checks }}" as="c" hint-placeholder-count="6">
+                    <div style="display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:10px; background:#11161c; border:1px solid #1f272f;">
+                      <div style="width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; color:{{ c.col }}; background:{{ c.bg }};">{{ c.sym }}</div>
+                      <div style="flex:1; min-width:0;"><div style="font-size:13px; color:#E7EDF3; font-weight:500;">{{ c.label }}</div></div>
+                      <div style="font-size:11.5px; color:#7e8c99; font-family:'IBM Plex Mono',monospace; white-space:nowrap;">{{ c.detail }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:2px;">
+                  <div style="background:#11161c; border:1px solid #1f272f; border-radius:10px; padding:13px;"><div style="font-size:18px; font-weight:600; color:#E7EDF3; font-family:'IBM Plex Mono',monospace;">4,238</div><div style="font-size:10.5px; color:#5e6b78; margin-top:3px;">total bp</div></div>
+                  <div style="background:#11161c; border:1px solid #1f272f; border-radius:10px; padding:13px;"><div style="font-size:18px; font-weight:600; color:#E7EDF3; font-family:'IBM Plex Mono',monospace;">717</div><div style="font-size:10.5px; color:#5e6b78; margin-top:3px;">insert bp</div></div>
+                  <div style="background:#11161c; border:1px solid #1f272f; border-radius:10px; padding:13px;"><div style="font-size:18px; font-weight:600; color:#E7EDF3; font-family:'IBM Plex Mono',monospace;">52%</div><div style="font-size:10.5px; color:#5e6b78; margin-top:3px;">GC content</div></div>
+                  <div style="background:#11161c; border:1px solid #1f272f; border-radius:10px; padding:13px;"><div style="font-size:18px; font-weight:600; color:#E7EDF3; font-family:'IBM Plex Mono',monospace;">238</div><div style="font-size:10.5px; color:#5e6b78; margin-top:3px;">ORF aa</div></div>
+                </div>
+              </div>
+            </div>
+            <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+                <div style="font-size:13px; color:#E7EDF3; font-weight:600;">5′ junction — EcoRI · vector ↔ insert</div>
+                <span style="display:flex; align-items:center; gap:5px; font-size:11px; color:#8b98a5; font-family:'IBM Plex Mono',monospace;"><b style="color:#6EB744;">A</b><b style="color:#EF6A53;">T</b><b style="color:#5BC2D2;">C</b><b style="color:#FFC951;">G</b></span>
+              </div>
+              <div style="overflow-x:auto;"><div style="width:fit-content;">
+                <div style="display:flex; align-items:stretch; margin-bottom:7px;">
+                  <div style="width:221px; height:22px; border-radius:5px; background:#1a222b; display:flex; align-items:center; justify-content:center; font-size:10px; letter-spacing:0.06em; color:#8b98a5;">pUC19 MCS</div>
+                  <div style="width:18px;"></div>
+                  <div style="width:390px; height:22px; border-radius:5px; background:rgba(91,194,210,0.12); display:flex; align-items:center; justify-content:center; font-size:10px; letter-spacing:0.06em; color:var(--accent,#5BC2D2);">EGFP CDS →</div>
+                </div>
+                <div class="seqrow" style="display:flex; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500;">
+                  <div style="display:flex; width:221px;"><sc-for list="{{ aLeft }}" as="x" hint-placeholder-count="17"><span style="width:13px; text-align:center; color:{{ x.c }};">{{ x.b }}</span></sc-for></div>
+                  <div style="width:18px; display:flex; justify-content:center; align-self:stretch;"><div style="width:0; border-left:2px dashed var(--accent,#5BC2D2);"></div></div>
+                  <div style="display:flex; width:390px;"><sc-for list="{{ aRight }}" as="x" hint-placeholder-count="30"><span style="width:13px; text-align:center; color:{{ x.c }};">{{ x.b }}</span></sc-for></div>
+                </div>
+              </div></div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ============ SCREEN 4: WETLAB VERIFY ============ -->
+        <sc-if value="{{ isWet }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex; align-items:center; padding:22px 26px 18px; border-bottom:1px solid #161d24;">
+            <div>
+              <h1 style="margin:0; font-size:21px; font-weight:600; color:#E7EDF3; letter-spacing:-0.015em;">Wetlab Verification</h1>
+              <div style="font-size:12.5px; color:#7e8c99; margin-top:4px;">Sanger + whole-plasmid reads vs. expected pUC19–EGFP</div>
+            </div>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:14px;">
+              <div style="display:flex; align-items:center; gap:7px; background:rgba(255,201,81,0.10); border:1px solid rgba(255,201,81,0.28); padding:6px 12px; border-radius:20px;"><span style="font-size:11.5px; color:#FFC951; font-weight:600; font-family:'IBM Plex Mono',monospace;">98.7% identity</span></div>
+              <button style="font-family:inherit; font-size:13px; color:#cdd6df; background:transparent; border:1px solid #2a333e; border-radius:9px; padding:9px 16px; cursor:pointer;">Upload reads…</button>
+            </div>
+          </div>
+          <div style="padding:22px 26px;">
+            <div style="display:flex; align-items:center; gap:16px; background:linear-gradient(90deg,rgba(255,201,81,0.12),rgba(255,201,81,0.03)); border:1px solid rgba(255,201,81,0.30); border-radius:14px; padding:18px 20px; margin-bottom:20px;">
+              <div style="width:42px; height:42px; border-radius:50%; background:rgba(255,201,81,0.16); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFC951" stroke-width="2.2"><path d="M4 12.5l5 5 11-12"/></svg></div>
+              <div style="flex:1;"><div style="font-size:16px; font-weight:600; color:#E7EDF3;">Construct confirmed — 1 silent variant</div><div style="font-size:12.5px; color:#9aa7b4; margin-top:3px;">EGFP CDS intact · c.345C&gt;T is synonymous (no aa change) · review recommended</div></div>
+              <button style="font-family:inherit; font-size:13px; font-weight:600; color:#0E1217; background:#FFC951; border:none; border-radius:9px; padding:10px 18px; cursor:pointer;">Approve clone</button>
+            </div>
+
+            <!-- coverage -->
+            <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px; margin-bottom:20px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;"><div style="font-size:13px; color:#E7EDF3; font-weight:600;">Read coverage across construct</div><div style="font-size:11.5px; color:#7e8c99; font-family:'IBM Plex Mono',monospace;">mean depth 142×</div></div>
+              <svg width="100%" height="150" viewBox="0 0 1000 150" preserveAspectRatio="none" style="display:block;">
+                <path d="M0 110 L0 46 L120 36 L260 30 L380 44 L520 38 L590 50 L620 84 L660 86 L700 52 L820 34 L1000 48 L1000 110 Z" fill="rgba(91,194,210,0.16)" stroke="var(--accent,#5BC2D2)" stroke-width="2"/>
+                <rect x="588" y="20" width="74" height="92" fill="none" stroke="#FFC951" stroke-width="1.4" stroke-dasharray="4 3" rx="3"/>
+                <text x="625" y="16" text-anchor="middle" fill="#FFC951" font-size="10" font-family="IBM Plex Mono">low</text>
+                <rect x="0" y="120" width="430" height="14" rx="3" fill="#FFC951"/>
+                <rect x="432" y="120" width="180" height="14" rx="3" fill="#8291C6"/>
+                <rect x="614" y="120" width="386" height="14" rx="3" fill="var(--accent,#5BC2D2)"/>
+                <text x="210" y="131" text-anchor="middle" fill="#0E1217" font-size="9.5" font-weight="600" font-family="IBM Plex Sans">AmpR</text>
+                <text x="520" y="131" text-anchor="middle" fill="#0E1217" font-size="9.5" font-weight="600" font-family="IBM Plex Sans">ori</text>
+                <text x="805" y="131" text-anchor="middle" fill="#06222a" font-size="9.5" font-weight="600" font-family="IBM Plex Sans">EGFP CDS</text>
+              </svg>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 360px; gap:20px;">
+              <!-- alignment -->
+              <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px; min-width:0;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;"><div style="font-size:13px; color:#E7EDF3; font-weight:600;">Read alignment · EGFP CDS region</div><div style="font-size:11.5px; color:#7e8c99; font-family:'IBM Plex Mono',monospace;">pos 331–357</div></div>
+                <div style="overflow-x:auto;"><div style="width:fit-content;">
+                  <div style="display:flex; align-items:center; margin-bottom:8px;">
+                    <div style="width:120px; font-size:11.5px; color:#7e8c99; flex-shrink:0;">Expected ref</div>
+                    <div class="seqrow" style="display:flex; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500;"><sc-for list="{{ refArr }}" as="x" hint-placeholder-count="27"><span style="width:15px; text-align:center; color:{{ x.c }};">{{ x.b }}</span></sc-for></div>
+                  </div>
+                  <div style="display:flex; align-items:center;">
+                    <div style="width:120px; font-size:11.5px; color:#7e8c99; flex-shrink:0;">Read F · Sanger</div>
+                    <div class="seqrow" style="display:flex; font-family:'IBM Plex Mono',monospace; font-size:15px;"><sc-for list="{{ readArr }}" as="x" hint-placeholder-count="27"><span style="{{ x.style }}">{{ x.b }}</span></sc-for></div>
+                  </div>
+                  <div style="display:flex; align-items:center; margin-top:10px;">
+                    <div style="width:120px; flex-shrink:0;"></div>
+                    <div style="display:flex; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#FFC951;"><span style="width:300px; padding-left:300px;">↑ c.345C&gt;T · silent (Gly)</span></div>
+                  </div>
+                </div></div>
+              </div>
+
+              <!-- chromatogram + features -->
+              <div style="display:flex; flex-direction:column; gap:20px; min-width:0;">
+                <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:20px;">
+                  <div style="font-size:13px; color:#E7EDF3; font-weight:600; margin-bottom:14px;">Chromatogram · variant call</div>
+                  <svg width="100%" height="110" viewBox="0 0 340 110" preserveAspectRatio="none" style="display:block;">
+                    <line x1="0" y1="92" x2="340" y2="92" stroke="#222b34" stroke-width="1"/>
+                    <rect x="156" y="6" width="40" height="100" fill="rgba(255,201,81,0.08)" stroke="#FFC951" stroke-width="1" stroke-dasharray="3 3" rx="3"/>
+                    <sc-for list="{{ chrom }}" as="p" hint-placeholder-count="8"><path d="{{ p.path }}" fill="none" stroke="{{ p.c }}" stroke-width="2.4"/></sc-for>
+                  </svg>
+                  <div class="seqrow" style="display:flex; font-family:'IBM Plex Mono',monospace; font-size:13px; margin-top:2px;"><sc-for list="{{ chrom }}" as="p" hint-placeholder-count="8"><span style="width:40px; text-align:center; color:{{ p.c }};">{{ p.b }}</span></sc-for></div>
+                  <div style="font-size:11px; color:#7e8c99; margin-top:8px; text-align:center;">Clean single peak at variant — high-confidence call</div>
+                </div>
+                <div style="background:#11161c; border:1px solid #1f272f; border-radius:14px; padding:18px;">
+                  <div style="font-size:13px; color:#E7EDF3; font-weight:600; margin-bottom:12px;">Per-feature result</div>
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <sc-for list="{{ features }}" as="c" hint-placeholder-count="4">
+                      <div style="display:flex; align-items:center; gap:11px;">
+                        <div style="width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; color:{{ c.col }}; background:{{ c.bg }};">{{ c.sym }}</div>
+                        <div style="flex:1; font-size:13px; color:#E7EDF3;">{{ c.label }}</div>
+                        <div style="font-size:11.5px; color:#7e8c99; font-family:'IBM Plex Mono',monospace;">{{ c.detail }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Cyan&quot;,&quot;options&quot;:[&quot;Cyan&quot;,&quot;Gold&quot;,&quot;Green&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showBlueprint&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'library' };
+  componentDidMount() { this.applyAccent(); }
+  componentDidUpdate() { this.applyAccent(); }
+  applyAccent() {
+    const m = { Cyan: '#5BC2D2', Gold: '#FFC951', Green: '#57C98A' };
+    document.documentElement.style.setProperty('--accent', m[this.props.accent] || '#5BC2D2');
+  }
+  seq(str) {
+    const BC = { A: '#6EB744', T: '#EF6A53', C: '#5BC2D2', G: '#FFC951' };
+    return [...str].map((b) => ({ b, c: BC[b] || '#9aa7b4' }));
+  }
+  tabStyle(key) {
+    const a = this.state.tab === key;
+    return {
+      col: a ? 'var(--accent,#5BC2D2)' : '#8b98a5',
+      bd: a ? '2px solid var(--accent,#5BC2D2)' : '2px solid transparent',
+      wt: a ? '600' : '400',
+    };
+  }
+  renderVals() {
+    const t = this.state.tab;
+    const mk = (arr) => arr.map((c) => ({
+      ...c,
+      col: c.state === 'warn' ? '#FFC951' : '#57C98A',
+      sym: c.state === 'warn' ? '!' : '✓',
+      bg: c.state === 'warn' ? 'rgba(255,201,81,0.12)' : 'rgba(87,201,138,0.12)',
+    }));
+    const checks = mk([
+      { label: 'Insert orientation', detail: 'Forward 5′→3′', state: 'pass' },
+      { label: 'Reading frame', detail: 'In-frame · N-term tag', state: 'pass' },
+      { label: 'EcoRI junction (5′)', detail: 'no scar', state: 'pass' },
+      { label: 'BamHI junction (3′)', detail: 'no scar', state: 'pass' },
+      { label: 'Premature stop codons', detail: 'none in CDS', state: 'pass' },
+      { label: 'Internal cut sites', detail: '1 internal EcoRI', state: 'warn' },
+    ]);
+    const features = mk([
+      { label: 'AmpR', detail: '100% identity', state: 'pass' },
+      { label: 'ori', detail: '100% identity', state: 'pass' },
+      { label: 'EGFP CDS', detail: 'silent c.345C>T', state: 'warn' },
+      { label: 'lac promoter', detail: '100% identity', state: 'pass' },
+    ]);
+    const refItems = [
+      { name: 'pUC19', type: 'VECTOR', meta: '2,686 bp · high-copy', tags: 'cloning · lacZα', dot: '#FFC951', sel: true },
+      { name: 'pET-28a(+)', type: 'VECTOR', meta: '5,369 bp · T7 · His-tag', tags: 'expression', dot: '#FFC951' },
+      { name: 'pcDNA3.1(+)', type: 'VECTOR', meta: '5,428 bp · CMV', tags: 'mammalian', dot: '#FFC951' },
+      { name: 'EGFP', type: 'FEATURE', meta: '717 bp CDS', tags: 'reporter', dot: 'var(--accent,#5BC2D2)' },
+      { name: 'EcoRI', type: 'ENZYME', meta: 'G^AATTC', tags: '6-cutter', dot: '#6EB744' },
+      { name: 'BamHI', type: 'ENZYME', meta: 'G^GATCC', tags: '6-cutter', dot: '#6EB744' },
+      { name: 'BsaI', type: 'ENZYME', meta: 'GGTCTC(1/5)', tags: 'Type IIS · Golden Gate', dot: '#6EB744' },
+      { name: 'M13 Fwd (–20)', type: 'PRIMER', meta: 'GTAAAACGACGGCCAGT', tags: 'sequencing', dot: '#8291C6' },
+      { name: 'T7 promoter', type: 'PRIMER', meta: 'TAATACGACTCACTATAGGG', tags: 'sequencing', dot: '#8291C6' },
+    ].map((r) => ({
+      ...r,
+      bg: r.sel ? '#13202a' : 'transparent',
+      bd: r.sel ? '1px solid rgba(91,194,210,0.30)' : '1px solid #1f272f',
+    }));
+    const projFiles = [
+      { name: 'pUC19-backbone.gb', fmt: 'GenBank', len: '2,686 bp', role: 'Backbone', dot: '#FFC951', roleBg: 'rgba(255,201,81,0.10)', roleBd: 'rgba(255,201,81,0.30)' },
+      { name: 'insert_EGFP.fasta', fmt: 'FASTA', len: '717 bp', role: 'Insert', dot: 'var(--accent,#5BC2D2)', roleBg: 'rgba(91,194,210,0.10)', roleBd: 'rgba(91,194,210,0.30)' },
+      { name: 'primer_F.seq', fmt: 'Plain', len: '24 nt', role: 'Primer', dot: '#8291C6', roleBg: 'rgba(130,145,198,0.12)', roleBd: 'rgba(130,145,198,0.32)' },
+      { name: 'primer_R.seq', fmt: 'Plain', len: '22 nt', role: 'Primer', dot: '#8291C6', roleBg: 'rgba(130,145,198,0.12)', roleBd: 'rgba(130,145,198,0.32)' },
+    ];
+    const refArr = this.seq('GACTCTAGAGGATCCATGGTGAGCAAG');
+    const readStr = 'GACTCTAGAGGATCCATGGTAAGCAAG';
+    const BC = { A: '#6EB744', T: '#EF6A53', C: '#5BC2D2', G: '#FFC951' };
+    const readArr = [...readStr].map((b, i) => {
+      const mm = b !== refArr[i].b;
+      return {
+        b,
+        style: mm
+          ? 'width:15px;text-align:center;color:#EF6A53;background:rgba(239,106,83,0.22);border-radius:3px;font-weight:600;'
+          : 'width:15px;text-align:center;color:#9aa7b4;',
+      };
+    });
+    const cb = 'GACTCCGT';
+    const hs = [52, 46, 58, 50, 60, 44, 54, 48];
+    const chrom = [...cb].map((b, i) => {
+      const cx = 24 + i * 40;
+      const h = hs[i];
+      return { b, c: BC[b], cx, path: `M ${cx - 16} 92 Q ${cx} ${92 - h} ${cx + 16} 92` };
+    });
+    return {
+      isLib: t === 'library', isFiles: t === 'files', isCheck: t === 'check', isWet: t === 'wetlab',
+      goLibrary: () => this.setState({ tab: 'library' }),
+      goFiles: () => this.setState({ tab: 'files' }),
+      goCheck: () => this.setState({ tab: 'check' }),
+      goWet: () => this.setState({ tab: 'wetlab' }),
+      tLib: this.tabStyle('library'), tFiles: this.tabStyle('files'), tCheck: this.tabStyle('check'), tWet: this.tabStyle('wetlab'),
+      checks, features, refItems, projFiles, refArr, readArr, chrom,
+      preview: this.seq('GACGAAAGGGCCTCGTGATACGCCTATTTTTATAGGTTA'),
+      aLeft: this.seq('CGACGGCCAGTGAATTC'),
+      aRight: this.seq('ATGGTGAGCAAGGGCGAGGAGCTGTTCACC'),
+    };
+  }
+}
+</script>
+</body>
+</html>
